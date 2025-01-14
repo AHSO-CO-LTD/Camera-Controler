@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style/setting.css" />
+    <title>Camera Control</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="active" id="ccd" onclick="selectMenu('ccd')">CCD</div>
+        <div id="camera" onclick="selectMenu('camera')">Camera</div>
+      </div>
+      <!-- CCD -->
+      <div id="ccd-content" class="content active">
+        <h2 class="name-model-setting">CCD</h2>
+        <h3 id="name-model-setting">Name model</h3>
+        <div class="row">
+          <label for="width"> Width: </label>
+          <input id="width" max="2500" type="number" />
+
+          <label for="height"> Height: </label>
+          <input id="height" max="1500" type="number" />
+        </div>
+        <div class="row">
+          <label for="offsetX">Offset X: </label>
+          <input id="offsetX" type="number" />
+
+          <label for="offsetY">Offset Y: </label>
+          <input id="offsetY" type="number" />
+        </div>
+        <div class="row">
+          <label for="gain">Gain: </label>
+          <input id="gain" type="number" />
+
+          <label for="exposure"> Exposure: </label>
+          <input id="exposure" max="10000" min="0" type="number" />
+        </div>
+
+        <button class="applySettings" id="apply_settings">
+          <i class="fas fa-cog"> </i>
+          Apply Settings
+        </button>
+      </div>
+      <!-- Camera -->
+      <div id="camera-content" class="content">
+        <div class="name-camera" id="name-camera">Name camera</div>
+        <div class="button-row">
+          <button class="connect" id="connectCamera">
+            <i class="fas fa-video"> </i>
+            Connect Camera
+          </button>
+          <button class="disconnect" id="disconnectCamera">
+            <i class="fas fa-video-slash"> </i>
+            Disconnect Camera
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="../javascript/setting.js"></script>
+  </body>
+</html>

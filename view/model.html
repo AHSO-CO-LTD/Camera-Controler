@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style/model.css" />
+    <title>Camera Control</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Model</h1>
+      <div class="input-group">
+        <input type="text" id="name-model" placeholder="Enter name..." />
+        <input type="text" id="po-model" placeholder="Enter PO..." />
+      </div>
+      <div class="button-group">
+        <button class="save" id="btn-save-model">
+          <i class="fas fa-save"> </i>
+          Save
+        </button>
+        <button class="load" id="btn-load-model">
+          <i class="fas fa-solid fa-upload"></i>
+          Load
+        </button>
+        <button class="create" id="btn-create-model">
+          <i class="fas fa-solid fa-plus"></i>
+          Create
+        </button>
+      </div>
+      <!-- List model form folder models -->
+      <div class="list-model" id="list-model"></div>
+      <div class="model-details">
+        <h2>Model Details</h2>
+        <p id="details-content">Select a model to see details</p>
+        <div class="row">
+          <label>
+            Width
+            <input type="number" id="width-model" />
+          </label>
+          <label>
+            Height
+            <input type="number" id="height-model" />
+          </label>
+        </div>
+        <div class="row">
+          <label>
+            offsetX
+            <input type="number" id="offsetX-model" />
+          </label>
+          <label>
+            offsetY
+            <input type="number" id="offsetY-model" />
+          </label>
+        </div>
+        <div class="row">
+          <label>
+            Exposure
+            <input type="number" id="exposure-model" />
+          </label>
+          <label>
+            Gain
+            <input type="number" id="gain-model" />
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Javascript -->
+    <script src="../javascript/model.js"></script>
+  </body>
+</html>

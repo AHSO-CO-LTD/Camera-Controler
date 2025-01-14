@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DRB</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style/index.css" />
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        <img
+          src="./backend/images/565350988b1c4c60930d7fc7344b54a8.png"
+          alt="DRB Logo"
+        />
+      </div>
+      <div class="title">SPINNING COUNTING SOFTWARE</div>
+      <div class="language">
+        <select name="language" id="changeLanguage" class="changeLanguage">
+          <option value="en">English</option>
+          <option value="vi">Việt Nam</option>
+        </select>
+      </div>
+    </div>
+    <div class="main">
+      <div class="left-panel">
+        <div class="buttons">
+          <div class="button-group-left">
+            <div class="button" id="run-button">
+              <i class="fas fa-play" id="icon-run-stop"></i>
+              <span id="run-button-text">RUN</span>
+            </div>
+            <div class="button" id="live-button">
+              <i class="fas fa-video" id="icon-live-run-stop"></i>
+              <span id="live-button-text">LIVE</span>
+            </div>
+            <div class="button" id="trigger-button">
+              <i class="fas fa-hand-pointer"></i>
+              <span id="trigger-button-text">TRIGGER</span>
+            </div>
+          </div>
+          <div class="button-group-right">
+            <div class="button" id="save-button">
+              <i class="fas fa-save"></i>
+              <span id="save-button-text">SAVE</span>
+            </div>
+            <div class="button" id="report-button">
+              <i class="fas fa-clipboard"></i>
+              <span id="report-button-text">REPORT</span>
+            </div>
+
+            <div class="button" id="model-button">
+              <i class="fas fa-solid fa-cloud"></i>
+              <span id="model-button-text">MODEL</span>
+            </div>
+            <div class="button" id="setting-button">
+              <i class="fas fa-cog"></i>
+              <span id="setting-button-text">SETTING</span>
+            </div>
+          </div>
+        </div>
+        <div class="left-center">
+          <div class="container-result-camera">
+            <div class="container-result">
+              <div class="result-production result" id="result-status">
+                <span id="context-result">RESULT</span>
+              </div>
+              <div class="count-container">
+                <div class="counting">
+                  <span class="count-actual" id="count-actual">0</span>
+                </div>
+                <div class="counting">
+                  <span class="count-standard" id="count-standard">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="camera">
+            <h5>Processed Image</h5>
+            <img id="processed-image" alt=" " />
+            <h5>Original Image</h5>
+            <img id="original-image" alt=" " />
+          </div>
+        </div>
+        <div class="status-container"></div>
+      </div>
+      <div class="right-panel">
+        <div class="production">
+          <div>Name Model</div>
+          <div class="name-model" id="name-model"></div>
+          <div class="search-container">
+            <input
+              id="search-model"
+              type="text"
+              class="search"
+              placeholder="Search..."
+            />
+            <i class="fas fa-search"></i>
+          </div>
+        </div>
+        <!-- <div class="container-model">
+          <div class="model">
+            <div class="group-input-model">
+              <input
+                id="input-model"
+                list="model-options"
+                class="model-input"
+                placeholder="Enter or choose..."
+              />
+              <input id="input-po" type="text" placeholder="Enter PO..." />
+              <datalist id="model-options">
+                <option value="Model A"></option>
+              </datalist>
+            </div>
+            <div class="group-button-model">
+              <button class="btn-load-model" id="btn-load-model">
+                <i class="fas fa-upload"></i>
+                <span>Load</span>
+              </button>
+              <button class="btn-save-model" id="btn-save-model">
+                <i class="fas fa-save"></i>
+                <span>Save</span>
+              </button>
+            </div>
+          </div>
+        </div> -->
+        <div class="details">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  <button
+                    class="btn-reset"
+                    id="reset-button"
+                    onclick="showStatus('Reset value actual!', 'active')"
+                  >
+                    <i class="fas fa-solid fa-check"></i>
+                    <span id="reset-button-text">RESET</span>
+                  </button>
+                </th>
+                <th id="standard-label">Standard</th>
+                <th id="actual-label">Actual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th id="quantity-label">Quantity</th>
+                <td id="standard-quantity">
+                  <input
+                    type="number"
+                    class="quantity-value-standard"
+                    id="quantity-value-standard"
+                    value="27"
+                    max="30"
+                    min="0"
+                  />
+                  <span class="quantity-unit">Cord</span>
+                </td>
+                <td id="actual-quantity">
+                  <span class="quantity-value" id="quantity-value-actual"
+                    >0</span
+                  >
+                  <span class="quantity-unit">Cord</span>
+                </td>
+              </tr>
+              <tr>
+                <th id="size-label">Size</th>
+                <td id="standard-size">
+                  <input
+                    type="number"
+                    class="size-value-standard"
+                    id="size-value-standard"
+                    value="25.3"
+                    step="0.1"
+                    min="0"
+                  />
+                  <span class="size-unit">mm</span>
+                </td>
+                <td id="actual-size">
+                  <span class="size-value" id="size-value-actual">0</span>
+                  <span class="size-unit">mm</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cycle-time">
+          <div class="cycle-time-display">
+            <span class="title">Cycle Time:</span>
+            <span id="cycle-count-value">12</span>
+            <span>|</span>
+            <span class="cycle-time-value" id="cycle-time-value">ms</span>
+          </div>
+        </div>
+        <div class="footer-right">
+          <div class="footer-item">
+            <span class="title" id="qty-title">Qty:</span>
+            <span class="value" id="footer-qty">0</span>
+            <span class="unit-qty unit">belt</span>
+          </div>
+          <div class="footer-item">
+            <span class="title" id="time-title">Time:</span>
+            <span class="value" id="footer-time">00:00:00</span>
+            <span class="unit-time unit">s</span>
+          </div>
+          <div class="footer-item">
+            <span class="title" id="lost-time-title">Lost Time:</span>
+            <span class="value" id="footer-lost-time">00:00:00</span>
+            <span class="unit-lost unit">s</span>
+          </div>
+          <div class="footer-item">
+            <span class="title" id="total-time-title">Total:</span>
+            <span class="value" id="footer-total">00:00:00</span>
+            <span class="unit-total unit">s</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./javascript/index.js"></script>
+    <script src="./javascript/timer.js"></script>
+  </body>
+</html>

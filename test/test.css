@@ -1,0 +1,66 @@
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background: #ffffff;
+}
+
+@property --a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.count-container .counting {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background: repeating-conic-gradient(from var(--a), #ff2770 0%, #ff2770 5%, transparent 5%, transparent 40%, #ff2770 50%);
+  animation: rotating 2s linear infinite;
+  border-radius: 20px;
+  filter: drop-shadow(0 15px 50px #000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.count-container .counting .count-actual {
+  position: absolute;
+  height: 70%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+}
+@keyframes rotating {
+  0% {
+    --a: 0deg;
+  }
+  100% {
+    --a: 360deg;
+  }
+}
+.count-container .counting::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: repeating-conic-gradient(from var(--a), #45f3ff 0%, #45f3ff 5%, transparent 5%, transparent 40%, #45f3ff 50%);
+  animation: rotating 2s linear infinite;
+  animation-delay: 0.5s;
+  border-radius: 20px;
+}
+.count-container .counting::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 8px solid #25252b;
+  border-radius: 15px;
+  background: #2d2d39;
+}/*# sourceMappingURL=test.css.map */
