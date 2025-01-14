@@ -1,0 +1,126 @@
+// === Variables ===
+$primary-color: #007bff;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$warning-color: #ffc107;
+$gray-color: #6c757d;
+$light-color: #f8f9fa;
+$dark-color: #343a40;
+$border-color: #ddd;
+
+// === Global Spacing ===
+$margin-bottom: 10px;
+$margin-right: 10px;
+$margin-top: 10px;
+
+// === Mixins ===
+@mixin button-style($bg-color) {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: $bg-color;
+  transition: transform 0.2s, opacity 0.2s;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+// === Inputs ===
+@mixin input-style($bg-color) {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: $gray-color;
+    outline: none;
+  }
+}
+// === Styles ===
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+  h1,
+  h2 {
+    font-weight: bold;
+    color: $dark-color;
+    text-align: center;
+    margin-bottom: $margin-bottom;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    input[type="text"] {
+      @include input-style(-color);
+    }
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $margin-bottom;
+    gap: 5px;
+
+    button {
+      @include button-style($primary-color);
+      &.save {
+        background-color: $primary-color;
+      }
+
+      &.load {
+        background-color: $success-color;
+      }
+
+      &.create {
+        background-color: $warning-color;
+      }
+    }
+  }
+  .list-model {
+    .model-item {
+      @include input-style(-color);
+      border: none;
+      background-color: $border-color;
+      &:active {
+        background-color: $light-color;
+      }
+    }
+  }
+  .model-details {
+    margin-top: $margin-top;
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: $margin-bottom;
+      width: 100%;
+      input[type="number"] {
+        @include input-style(-color);
+      }
+    }
+  }
+}

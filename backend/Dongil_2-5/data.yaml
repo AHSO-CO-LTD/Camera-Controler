@@ -1,0 +1,12 @@
+names:
+  - Couter
+nc: 1
+roboflow:
+  license: CC BY 4.0
+  project: dongil_2
+  url: https://universe.roboflow.com/trieu-l6awr/dongil_2/dataset/5
+  version: 5
+  workspace: trieu-l6awr
+test: ../test/images
+train: ../train/images
+val: ../valid/images

@@ -1,0 +1,131 @@
+// === Variables ===
+$primary-color: #007bff;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$warning-color: #ffc107;
+$gray-color: #6c757d;
+$light-color: #f8f9fa;
+$dark-color: #343a40;
+$border-color: #ddd;
+$white-color: white;
+$text-color: white;
+
+// === Global Spacing ===
+$margin-bottom: 10px;
+$margin-right: 10px;
+$margin-top: 10px;
+$boder-radius-all: 10px;
+
+// === Mixins ===
+@mixin button-style($bg-color) {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: $bg-color;
+  transition: transform 0.2s, opacity 0.2s;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+// === Inputs ===
+@mixin input-style($bg-color) {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: $gray-color;
+    outline: none;
+  }
+}
+// === Style ===
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+// === Header ===
+.header {
+  display: flex;
+  justify-content: space-around;
+  background-color: $gray-color;
+  padding: 10px 10px;
+  border-radius: 10px;
+  color: $text-color;
+  div {
+    flex: 1; // Chia đều chiều rộng cho các mục
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    text-align: center; // Canh giữa nội dung
+    padding: 5px 0;
+
+    &.active {
+      background-color: $border-color;
+      transform: translateY(-2px) scale(1.02);
+    }
+  }
+}
+.container {
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  background-color: $white-color;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: $boder-radius-all;
+  .content {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+  // ======== CCD ========
+  #ccd-content {
+    .row {
+      display: flex;
+      width: 100%;
+      gap: $margin-right;
+      margin-bottom: $margin-bottom;
+      justify-content: space-between;
+      align-items: center;
+      label {
+        width: 30%;
+      }
+      input[type="number"] {
+        @include input-style(-color);
+        width: 70%;
+      }
+    }
+    button {
+      @include button-style(-color);
+      &.applySettings {
+        background-color: $success-color;
+        width: 150px;
+      }
+    }
+  }
+  // ======== Camera ========
+  #camera-content {
+    button {
+      @include button-style(-color);
+      &.connect {
+        background-color: #28a745;
+      }
+      &.disconnect {
+        background-color: $warning-color;
+      }
+    }
+  }
+}

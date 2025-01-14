@@ -1,0 +1,106 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.container h1,
+.container h2 {
+  font-weight: bold;
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.container .input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.container .input-group input[type=text] {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+.container .input-group input[type=text]:focus {
+  border-color: #6c757d;
+  outline: none;
+}
+.container .button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 5px;
+}
+.container .button-group button {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.container .button-group button:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+.container .button-group button.save {
+  background-color: #007bff;
+}
+.container .button-group button.load {
+  background-color: #28a745;
+}
+.container .button-group button.create {
+  background-color: #ffc107;
+}
+.container .list-model .model-item {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+  border: none;
+  background-color: #ddd;
+}
+.container .list-model .model-item:focus {
+  border-color: #6c757d;
+  outline: none;
+}
+.container .list-model .model-item:active {
+  background-color: #f8f9fa;
+}
+.container .model-details {
+  margin-top: 10px;
+}
+.container .model-details .row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.container .model-details .row input[type=number] {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+.container .model-details .row input[type=number]:focus {
+  border-color: #6c757d;
+  outline: none;
+}/*# sourceMappingURL=model.css.map */

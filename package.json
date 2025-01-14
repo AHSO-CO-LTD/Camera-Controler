@@ -1,0 +1,112 @@
+{
+  "name": "demo-drb",
+  "version": "1.0.0",
+  "description": "Demo DRB Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "npx electron .",
+    "build": "electron-builder",
+    "postinstall": "electron-rebuild -f -w ffi-napi ref-napi"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "bmp-js": "^0.1.0",
+    "edge.js": "^6.2.0",
+    "ffi-napi": "^4.0.3",
+    "ref-napi": "^3.0.3"
+  },
+  "devDependencies": {
+    "electron": "^17.0.0",
+    "electron-builder": "^25.1.8",
+    "electron-rebuild": "^3.2.9"
+  },
+  "build": {
+    "appId": "com.yourcompany.demo-drb",
+    "productName": "Demo DRB",
+    "copyright": "Copyright © 2024",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "asar": false,
+    "files": [
+      ".vscode/**/*",
+      "data_dll/*",
+      "images/**/*",
+      "javascript/**/*",
+      "language/**/*",
+      "layout-setting/**/*",
+      "models/**/*",
+      "node_modules/**/*",
+      "style/**/*",
+      "test/**/*",
+      "index.html",
+      "intro.html",
+      "main.js",
+      "opencv_world455.dll",
+      "opencv_world455d.dll",
+      "package.json",
+      "package-lock.json",
+      "PylonC.NET.dll",
+      "PylonC.NET.XML",
+      "renderer.js",
+      "controller.js",
+      "node_modules/ffi-napi/**/*",
+      "node_modules/ref-napi/**/*",
+      "src/**/*",
+      "./data_dll/BeeCam.dll"
+    ],
+    "extraResources": [
+      {
+        "from": "data_dll/",
+        "to": "data_dll",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "extraFiles": [
+      {
+        "from": "./data_dll/BeeCam.dll",
+        "to": "data_dll/BeeCam.dll"
+      },
+      {
+        "from": "./opencv_world455.dll",
+        "to": "opencv_world455.dll"
+      },
+      {
+        "from": "./opencv_world455d.dll",
+        "to": "opencv_world455d.dll"
+      },
+      {
+        "from": "./PylonC.NET.dll",
+        "to": "PylonC.NET.dll"
+      },
+      {
+        "from": "./PylonC.NET.XML",
+        "to": "PylonC.NET.XML"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  }
+}

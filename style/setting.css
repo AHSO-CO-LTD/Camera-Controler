@@ -1,0 +1,108 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  background-color: #6c757d;
+  padding: 10px 10px;
+  border-radius: 10px;
+  color: white;
+}
+.header div {
+  flex: 1;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+  padding: 5px 0;
+}
+.header div.active {
+  background-color: #ddd;
+  transform: translateY(-2px) scale(1.02);
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+.container .content {
+  display: none;
+}
+.container .content.active {
+  display: block;
+}
+.container #ccd-content .row {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+.container #ccd-content .row label {
+  width: 30%;
+}
+.container #ccd-content .row input[type=number] {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+  width: 70%;
+}
+.container #ccd-content .row input[type=number]:focus {
+  border-color: #6c757d;
+  outline: none;
+}
+.container #ccd-content button {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: -color;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.container #ccd-content button:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+.container #ccd-content button.applySettings {
+  background-color: #28a745;
+  width: 150px;
+}
+.container #camera-content button {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: -color;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.container #camera-content button:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+.container #camera-content button.connect {
+  background-color: #28a745;
+}
+.container #camera-content button.disconnect {
+  background-color: #ffc107;
+}/*# sourceMappingURL=setting.css.map */
