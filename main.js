@@ -1,6 +1,42 @@
-const { error } = require("console");
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
+const { execFile } = require("child_process");
+
+let pythonProcess = null;
+
+function getBackendPath() {
+  const isPackaged = app.isPackaged; // Kiểm tra ứng dụng đã đóng gói hay chưa
+  const backendPath = isPackaged
+    ? path.join(process.resourcesPath, "app", "backend", "backend.exe") // Đường dẫn khi đóng gói
+    : path.join(__dirname, "backend", "backend.exe"); // Đường dẫn khi phát triển
+  return backendPath;
+}
+
+function runPythonBackend() {
+  const pythonExePath = getBackendPath();
+  const backendCwd = path.dirname(pythonExePath);
+
+  pythonProcess = execFile(
+    pythonExePath,
+    { cwd: backendCwd },
+    (error, stdout, stderr) => {
+      if (error) {
+        console.error("Failed to run backend.exe:", error);
+        return;
+      }
+      if (stderr) {
+        console.error("Python stderr:", stderr);
+      }
+      console.log("Python stdout:", stdout);
+    }
+  );
+
+  pythonProcess.on("close", (code) => {
+    console.log(`Python process exited with code ${code}`);
+    pythonProcess = null;
+  });
+  return pythonProcess; // Trả về tiến trình để quản lý
+}
 
 let mainWindow;
 
@@ -73,8 +109,17 @@ ipcMain.on("open-model", () => {
     .loadFile("./view/model.html")
     .catch((err) => console.error("Failded to load model.html:", err));
 });
-app.whenReady().then(createWindow);
-
+app.whenReady().then(() => {
+  runPythonBackend();
+  createWindow();
+});
+app.on("quit", () => {
+  if (pythonProcess) {
+    console.log("Terminating backend process....");
+    pythonProcess.kill();
+    pythonProcess = null;
+  }
+});
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
