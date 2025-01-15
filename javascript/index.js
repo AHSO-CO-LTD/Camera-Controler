@@ -61,8 +61,8 @@ const updateLiveButtonState = (state) => {
   }
 };
 // Bắt đầu live
-const startLive =  () => {
-  originalImage.src =  window.api.getLiveUrl();
+const startLive = () => {
+  originalImage.src = window.api.getLiveUrl();
   console.log(originalImage.src);
   updateLiveButtonState(true);
   isLive = true;
@@ -110,7 +110,7 @@ const updateResults = async () => {
   }
 };
 
-const updateButtonState = () => {
+const updateButtonState = async () => {
   if (isGrabbing) {
     runButtonText.textContent = "STOP";
     runButtonIcon.classList.remove("fa-play");
@@ -128,7 +128,6 @@ runButton.addEventListener("click", async () => {
     // Dừng việc grab
     isGrabbing = false;
     console.log("Grabbing stopped.");
-    startLive()
   } else {
     // Bắt đầu grab
 
@@ -144,3 +143,20 @@ const inputWires = document.getElementById("quantity-value-standard");
 inputWires.addEventListener("change", () => {
   countStandard.textContent = inputWires.value;
 });
+// ====== Compare standard vs actual ======
+runButton.addEventListener("click", async () => {
+  if (runButtonText.textContent.trim() === "RUN") {
+    if (countActual.textContent === countStandard.textContent) {
+      await window.api.imagePass();
+    } else {
+      await window.api.imageError();
+    }
+  }
+});
+
+// if (countActual.textContent === countStandard.textContent) {
+//   alert("ok");
+// }
+// else {
+//   alert("pass");
+// }

@@ -65,7 +65,6 @@ contextBridge.exposeInMainWorld("api", {
         document.getElementById("offsetY").value = data.settings.offsetY;
         document.getElementById("gain").value = data.settings.gain;
         document.getElementById("exposure").value = data.settings.exposure;
-      
       } else {
         console.error("Error fetching settings:", data.message);
       }
@@ -121,15 +120,15 @@ contextBridge.exposeInMainWorld("api", {
         method: "POST",
       });
       // Kiểm tra nếu không thành công
-      if(!reponse.ok){
+      if (!reponse.ok) {
         const errorData = await reponse.json();
         throw new Error(errorData.message || "Error occurred while start grab");
       }
       // Trả về dữ liệu JSON
       return await reponse.json();
     } catch (error) {
-      console.error("Grab error:" , error.message);
-      return {success: false, message: error.message};
+      console.error("Grab error:", error.message);
+      return { success: false, message: error.message };
     }
   },
 
@@ -142,10 +141,31 @@ contextBridge.exposeInMainWorld("api", {
         throw new Error("Failed to stop grabbing images");
       }
       const data = await response.json(); // Xử lý dữ liệu trả về từ server
-      console.log(data.message); // In ra thông báo từ server (có thể là "Stopped continuous image processing")
-      console.log("Saved Images:", data.saved_images); // In ra các hình ảnh đã lưu
     } catch (error) {
       console.error("Error:", error.message); // In ra lỗi nếu có
+    }
+  },
+  // ============================ Save Image Pass ============================
+  imagePass: async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/image_pass", {
+        method: "POST",
+      });
+      if (!response.ok) throw new Error("Failed to save image pass.");
+      return await response.json();
+    } catch (error) {
+      console.error("Error save image: ", error);
+    }
+  },
+  imageError: async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/image_error", {
+        method: "POST",
+      });
+      if (!response.ok) throw new Error("Faild to save image error.");
+      return await response.json();
+    } catch (error) {
+      console.Error("Error save image: ", error);
     }
   },
   // ============================ Model ============================

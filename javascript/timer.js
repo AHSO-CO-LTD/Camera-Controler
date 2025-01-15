@@ -4,6 +4,7 @@ let elapsedTime = 0; // Tổng thời gian đã trôi qua cho footer-time (ms)
 let lostElapsedTime = 0; // Tổng thời gian đã trôi qua cho footer-lost-time (ms)
 let totalElapsedTime = 0;
 let storedTotalTime = 0; // Lưu tổng thời gian đã tính trước đó
+
 // Hàm định dạng thời gian HH:MM:SS
 function formatTime(milliseconds) {
   const totalSeconds = Math.floor(milliseconds / 1000);
@@ -59,31 +60,19 @@ function resetAll() {
 }
 
 // Sự kiện click cho nút "Run"
-const runButtonText = document.getElementById("run-button-text");
-const runButton = document.getElementById("run-button");
-const runButtonIcon = document.getElementById("icon-run-stop");
+
 document.getElementById("run-button").addEventListener("click", () => {
 
   // Nếu đang chạy thì dừng đếm, nếu không thì bắt đầu đếm
   if (timerInterval) {
     clearInterval(timerInterval); // Dừng đếm thời gian chính
     timerInterval = null;
-    runButtonText.textContent = "RUN";
-    runButton.style.background = "#1abc9c";
-    runButtonIcon.classList.remove("fas", "fa-stop");
-    runButtonIcon.classList.add("fas", "fa-play");
-    
-
     // Bắt đầu đếm Lost Time
     if (!lostTimeInterval) {
       startLostTime();
     }
   } else {
     const startTime = Date.now() - elapsedTime; // Lưu thời điểm bắt đầu
-    runButtonText.textContent = "STOP";
-    runButton.style.background = "#FFC107";
-    runButtonIcon.classList.remove("fas", "fa-play");
-    runButtonIcon.classList.add("fas", "fa-stop");
     // Bắt đầu đếm thời gian chính
     timerInterval = setInterval(() => {
       elapsedTime = Date.now() - startTime; // Cập nhật thời gian trôi qua

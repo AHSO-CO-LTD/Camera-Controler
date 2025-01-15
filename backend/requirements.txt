@@ -1,18 +1,4 @@
-from flask import Flask, request, jsonify, Response
-from pypylon import pylon
-from flask_cors import CORS
-import cv2
-import threading
-import os
-from flask import send_from_directory
-import time
-# Cài đặt thư viện
-pip install opencv-python flask flask-cors numpy
-pip install flask pypylon opencv-python-headless
-pip install opencv-python opencv-python-headless flask
 
-npm init -y
-npm install electron
 
 
 # # =====================================  Backup Trigger  ===================================== 

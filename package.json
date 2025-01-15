@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx electron .",
     "build": "electron-builder",
-    "postinstall": "electron-rebuild -f -w ffi-napi ref-napi"
+    "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [],
   "author": "",
@@ -19,9 +19,8 @@
     "ref-napi": "^3.0.3"
   },
   "devDependencies": {
-    "electron": "^17.0.0",
-    "electron-builder": "^25.1.8",
-    "electron-rebuild": "^3.2.9"
+    "electron": "^25.0.0",
+    "electron-builder": "^25.1.8"
   },
   "build": {
     "appId": "com.yourcompany.demo-drb",
@@ -34,79 +33,52 @@
     "asar": false,
     "files": [
       ".vscode/**/*",
-      "data_dll/*",
+      "backend/**/*",
       "images/**/*",
       "javascript/**/*",
       "language/**/*",
-      "layout-setting/**/*",
-      "models/**/*",
       "node_modules/**/*",
       "style/**/*",
-      "test/**/*",
+      "view/**/*",
       "index.html",
-      "intro.html",
       "main.js",
-      "opencv_world455.dll",
-      "opencv_world455d.dll",
       "package.json",
-      "package-lock.json",
-      "PylonC.NET.dll",
-      "PylonC.NET.XML",
-      "renderer.js",
-      "controller.js",
-      "node_modules/ffi-napi/**/*",
-      "node_modules/ref-napi/**/*",
-      "src/**/*",
-      "./data_dll/BeeCam.dll"
+      "package-lock.json"
     ],
     "extraResources": [
       {
-        "from": "data_dll/",
-        "to": "data_dll",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "extraFiles": [
-      {
-        "from": "./data_dll/BeeCam.dll",
-        "to": "data_dll/BeeCam.dll"
-      },
-      {
-        "from": "./opencv_world455.dll",
-        "to": "opencv_world455.dll"
-      },
-      {
-        "from": "./opencv_world455d.dll",
-        "to": "opencv_world455d.dll"
-      },
-      {
-        "from": "./PylonC.NET.dll",
-        "to": "PylonC.NET.dll"
-      },
-      {
-        "from": "./PylonC.NET.XML",
-        "to": "PylonC.NET.XML"
+        "from": "app/backend/backend.exe",
+        "to": "app/backend/backend.exe"
       }
     ],
     "win": {
+      "icon": "./backend/images/logo-drb.ico",
       "target": [
         "nsis",
         "portable"
       ]
     },
     "mac": {
+      "icon": "./backend/images/logo-drb.ico",
       "target": [
         "dmg",
         "zip"
       ]
     },
     "linux": {
+      "icon": "./backend/images/logo-drb.ico",
       "target": [
         "AppImage",
         "deb"
       ]
     }
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AHSO-CO-LTD/Camera-Controler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AHSO-CO-LTD/Camera-Controler/issues"
+  },
+  "homepage": "https://github.com/AHSO-CO-LTD/Camera-Controler#readme"
 }

@@ -343,7 +343,7 @@ def start_grab():
         return jsonify({"message":"Camera is not connected"}),400
     try:
         # Kích hoạt camera và chụp ảnh
-        grab_result = camera.GrabOne(500)
+        grab_result = camera.GrabOne(1000)
         if grab_result.GrabSucceeded():
             image = grab_result.Array
             grab_result.Release()
@@ -420,8 +420,70 @@ def stop_grab():
             "message": "No image was captured during the live stream"
         }), 400
         
+# ===================================== Save images =====================================
+# Create folder images
+IMAGE_FOLDER_PATH = "../images"
+os.makedirs(IMAGE_FOLDER_PATH, exist_ok= True)
+# Đường dẫn thư mục hình ảnh pass, error
+PASS_DIR = "../images/pass"
+ERROR_DIR = "../images/error"
 
+# Tạo thư mục pass và error
+os.makedirs(PASS_DIR, exist_ok=True)
+os.makedirs(ERROR_DIR, exist_ok= True)
+# ===== Image pass =====
+@app.route('/api/image_pass', methods = ['POST'])
+def image_pass():
+    global camera
+    if camera is None:
+        return jsonify({"message":"Camera is not connected"}),400
+    try:
+        grab_result = camera.GrabOne(1000)
+        if grab_result.GrabSucceeded():
+            image = grab_result.Array
+            # Tạo tên file hình ảnh
+            timestamp = int(time.time()) # Thêm thời gian vào tên ảnh
+            image_filename = f"image_pass_{timestamp}.jpg"
+            image_path = os.path.join(PASS_DIR, image_filename)
 
+            # Lưu ảnh vào folder pass
+            cv2.imwrite(image_path, image)
+            grab_result.Release()
+            return jsonify({
+                "message":"Save image pass successful"
+            })
+        else:
+            return jsonify({"message":"Error save image"}),500
+
+    except Exception as e:
+        return jsonify({"message":f"Error save image: {e}"}),500
+# ===== Image erro =====
+@app.route('/api/image_error', methods = ['POST'])
+def image_error():
+    global camera
+    if camera is None:
+        return jsonify({"message":"Camera is not connected."}),400
+    try:
+       grab_result = camera.GrabOne(1000)
+       if grab_result.GrabSucceeded():
+            image = grab_result.Array
+            # Tạo tên file hình ảnh
+            timestamp = int(time.time()) # Thêm thời gian vào file hình ảnh
+            image_filename = f"image_error_{timestamp}.jpg"
+            image_path = os.path.join(ERROR_DIR,image_filename)
+
+            # Lưu ảnh vào folder
+            cv2.imwrite(image_path, image)
+            grab_result.Release()
+            return jsonify({
+                "message":"Save image error successful."
+            })
+       else:
+           return jsonify({"message":f"Error save image: {e}"}),500
+              
+            
+    except Exception as e:
+        return jsonify({"Message": "Error save image: {e}"}),500
 
 
 # ===================================== Create Model =====================================

@@ -1,5 +1,5 @@
 const { error } = require("console");
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 
 let mainWindow;
@@ -9,11 +9,36 @@ function createWindow() {
     width: 1300,
     height: 1000,
     webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
       preload: path.join(__dirname, "javascript", "preload.js"), // preload file cho index.html
     },
   });
 
-  mainWindow.loadFile("index.html");
+  mainWindow.maximize();
+
+  // ===== Intro =====
+  mainWindow
+    .loadFile(path.join(__dirname, "view", "intro.html"))
+    .catch((err) => {
+      console.error("Failed to load intro.html:", err);
+    });
+
+  mainWindow.webContents.on("did-finish-load", () => {
+    const currentURL = mainWindow.webContents.getURL();
+    if (currentURL.includes("intro.html")) {
+      setTimeout(() => {
+        mainWindow.loadFile(path.join(__dirname, "index.html")).catch((err) => {
+          console.error("Failed to load index.html:", err);
+        });
+      }, 3000);
+    }
+  });
+
+  // Dọn dẹp khi cửa sổ đóng
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
 }
 
 // ================= Create Window Setting =================
