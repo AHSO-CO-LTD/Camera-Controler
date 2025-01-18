@@ -32,5 +32,5 @@ document
   .getElementById("btn-save-model")
   .addEventListener("click", async () => {
     const nameModel = document.getElementById("name-model").value;
-    await window.api.saveModel(nameModel)
+    await window.api.saveModel(nameModel);
   });

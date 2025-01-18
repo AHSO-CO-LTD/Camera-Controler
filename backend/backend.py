@@ -88,8 +88,16 @@ model = YOLO("./runs/detect/train/weights/best.pt")  # Thay "yolov8n.pt" bằng 
 # Hiển thị kết quả
 # results.show()
 
-
-
+# =====================================  Check python ready =====================================
+@app.route('/api/check_backend_ready', methods=["GET"])
+def check_backend_ready():
+    global camera
+    try:
+        print("Backend ready.")
+        return jsonify({"message":"Check backend finish"})
+    except Exception as e:
+        return jsonify({"message": f"Backend not ready: {e}"}),500
+    
 # =====================================  Connect camera ===================================== 
 @app.route('/api/connect_camera', methods=['POST'])
 def connect_camera():
@@ -114,6 +122,7 @@ def disconnect_camera():
         print("Camera disconnected")
         return jsonify({"message": "Camera disconnected successfully"})
     return jsonify({"message": "Camera is not connected"}), 400
+
 
 # =====================================  Live camera ===================================== 
 @app.route('/api/live')
@@ -165,7 +174,7 @@ def stop_live():
 # =====================================  Trigger  ===================================== 
 # Thư mục để lưu hình ảnh
 IMAGE_FOLDER = "images"
-os.makedirs(IMAGE_FOLDER, exist_ok=True)
+# os.makedirs(IMAGE_FOLDER, exist_ok=True)
 
 @app.route('/api/trigger', methods=['POST'])
 def trigger():
@@ -173,6 +182,7 @@ def trigger():
     if camera is None:
         return jsonify({"message": "Camera is not connected"}), 400
 
+    start_time = time.time() # Thời gian bắt đầu
     try:
         # Kích hoạt camera và chụp ảnh
         grab_result = camera.GrabOne(1000)
@@ -214,17 +224,27 @@ def trigger():
             _, buffer = cv2.imencode('.jpg', image)
             image_base64 = base64.b64encode(buffer).decode('utf-8')
 
+            # Tính thời gian hoàn thành
+            end_time = time.time() # Thời gian kết thúc
+            cycle_time = (end_time - start_time)
+
             # Trả về kết quả
             detection_count = len(results[0].boxes)
             return jsonify({
                 "message": "Trigger successful",
                 "processed_image_url": f"data:image/jpeg;base64,{image_base64}",
-                "results": detection_count
+                "results": detection_count,
+                "cycle_time": f"{cycle_time:.2f}"
             })
         else:
             return jsonify({"message": "Error in trigger"}), 500
     except Exception as e:
-        return jsonify({"message": f"Error: {e}"}), 500
+        end_time = time.time()
+        cycle_time = (end_time - start_time)
+        return jsonify({
+            "message": f"Error: {e}",
+            "cycle_time":f"{cycle_time:.2f}"
+        }), 500
 
 
 # Endpoint để phục vụ hình ảnh đã xử lý
@@ -341,9 +361,10 @@ def start_grab():
     global camera
     if camera is None:
         return jsonify({"message":"Camera is not connected"}),400
+    start_time = time.time()
     try:
         # Kích hoạt camera và chụp ảnh
-        grab_result = camera.GrabOne(1000)
+        grab_result = camera.GrabOne(500)
         if grab_result.GrabSucceeded():
             image = grab_result.Array
             grab_result.Release()
@@ -381,18 +402,29 @@ def start_grab():
             _, buffer = cv2.imencode('.jpg', image)
             image_base64 = base64.b64encode(buffer).decode('utf-8')
 
+            end_time = time.time()
+            cycle_time = end_time - start_time
+
             # Trả về kế quả
             detection_count = len(results[0].boxes)
             return jsonify({
-                "message":"Trigger successful",
+                "message":"Start grab successful",
                 "processed_image_url": f"data:image/jpeg;base64,{image_base64}",
-                "results":detection_count
+                "results":detection_count,
+                "cycle_time": f"{cycle_time:.2f}"
             })
         else:
-            return jsonify({"message":"Error in trigger"}),500
+            return jsonify({
+                "message":"Error in trigger",
+            }),500
 
     except Exception as e:
-        return jsonify({"message":f"Error: {e}"}),500
+        end_time = time.time()
+        cycle_time = end_time - start_time
+        return jsonify({
+            "message":f"Error: {e}",
+            "cycle_time":f"{cycle_time:.2f}"
+        }),500
 
 # ===================================== Stop Grab =====================================
 @app.route('/api/stop_grab', methods=['POST'])
@@ -638,6 +670,32 @@ def update_model():
     except Exception as e:
         print(f"Error updating model: {e}")
         return jsonify({"message": f"Error updating model: {e}"}), 500
+    
+# ===================================== Read Model =====================================
+@app.route("/api/read_model", methods = ['GET'])
+def read_model():
+    try:
+        # Lấy dữ liệu được gửi đến
+        model_name = request.args.get('file')
+        file_name = os.path.join('models',f"{model_name}")
+    
+        # Kiểm tra nếu file không tồn tại
+        if not os.path.exists(file_name):
+            return jsonify({"message":f"File {model_name} not found"}),404
+
+        # Đọc nội dung file json
+        with open(file_name, 'r') as json_file:
+            model_data = json.load(json_file)
+            
+        return jsonify({
+            "message":"Model read successfully.",
+            "data": model_data,
+            "file_path": file_name,
+        }), 200
+    except Exception as e:
+        print(f"Error reading file json: {e}")
+        return jsonify({"message": f"Error reading file json: {e}"}),500
+
 
 # ===================================== List Model =====================================
 @app.route('/api/list_models', methods = ['GET'])

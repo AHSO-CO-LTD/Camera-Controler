@@ -1,5 +1,4 @@
 const { contextBridge, ipcRenderer } = require("electron");
-
 contextBridge.exposeInMainWorld("api", {
   // Hàm mở cửa sổ settings từ index.html
   openSettings: () => ipcRenderer.send("open-settings"),
@@ -10,6 +9,9 @@ contextBridge.exposeInMainWorld("api", {
 
   // Gửi dữ liệu từ renderer đến main process
   send: (channel, data) => ipcRenderer.send(channel, data),
+  onBackendReady: (callback) => {
+    ipcRenderer.on("backend-ready", callback);
+  },
 
   connectCamera: async () => {
     try {
@@ -34,6 +36,21 @@ contextBridge.exposeInMainWorld("api", {
     } catch (error) {
       console.error("Error in disconnectCamera:", error);
       return { message: "Error disconnecting camera", error: error.message };
+    }
+  },
+  checkBackend: async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api//check_backend_ready",
+        {
+          method: "GET",
+        }
+      );
+      if (!response.ok) throw new Error("Faild to check backend.");
+      return response.json();
+      response.json();
+    } catch (error) {
+      return { message: "Error check backend", error: error.message };
     }
   },
   setCameraSettings: async (settings) => {
@@ -221,11 +238,12 @@ contextBridge.exposeInMainWorld("api", {
       return;
     }
     const detailsContent = document.getElementById("details-content");
-    const width = document.getElementById("width-model");
-    const height = document.getElementById("height-model");
-    const offsetX = document.getElementById("offsetX-model");
-    const offsetY = document.getElementById("offsetY-model");
-    const exposure = document.getElementById("exposure-model");
+    const width = document.getElementById("width");
+    const height = document.getElementById("height");
+    const offsetX = document.getElementById("offsetX");
+    const offsetY = document.getElementById("offsetY");
+    const exposure = document.getElementById("exposure");
+    const gain = document.getElementById("gain");
 
     try {
       const response = await fetch(
@@ -245,6 +263,7 @@ contextBridge.exposeInMainWorld("api", {
       offsetX.value = data.ImageSettings.OffsetX;
       offsetY.value = data.ImageSettings.OffsetY;
       exposure.value = data.AcquisitionSettings.ExposureTime.Value;
+      gain.value = data.AcquisitionSettings.Gain.Value;
 
       // detailsContent.textContent = JSON.stringify(data, null, 4); // Hiển thị toàn bộ thông tin JSON đẹp hơn
     } catch (error) {
@@ -258,11 +277,12 @@ contextBridge.exposeInMainWorld("api", {
     }
 
     // Thu thập giá trị từ các trường input
-    const width = document.getElementById("width-model").value;
-    const height = document.getElementById("height-model").value;
-    const offsetX = document.getElementById("offsetX-model").value;
-    const offsetY = document.getElementById("offsetY-model").value;
-    const exposure = document.getElementById("exposure-model").value;
+    const width = document.getElementById("width").value;
+    const height = document.getElementById("height").value;
+    const offsetX = document.getElementById("offsetX").value;
+    const offsetY = document.getElementById("offsetY").value;
+    const exposure = document.getElementById("exposure").value;
+    const gain = document.getElementById("gain").value;
 
     // Đối tượng chứa các cập nhật
     const updates = {
@@ -271,6 +291,7 @@ contextBridge.exposeInMainWorld("api", {
       "ImageSettings.OffsetX": parseInt(offsetX, 10),
       "ImageSettings.OffsetY": parseInt(offsetY, 10),
       "AcquisitionSettings.ExposureTime.Value": parseInt(exposure, 10),
+      "AcquisitionSettings.Gain.Value": parseInt(gain, 10),
     };
     try {
       // Gửi yêu cầu đến API
@@ -291,6 +312,26 @@ contextBridge.exposeInMainWorld("api", {
       console.log("Model updated successfully:", result);
     } catch (error) {
       console.error("Error saving model: ", error);
+    }
+  },
+  readModel: async (nameModelSetting) => {
+    if (!nameModelSetting) {
+      return;
+    }
+    try {
+      
+      const response = await fetch(
+        `http://localhost:5000/api/read_model?file=${nameModelSetting}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) throw new Error("Failt to reading file json");
+      return response.json();
+    } catch (error) {
+      console.error("Error reading file json: ", error);
+      return { message: "Error reading file json ", error: error.message };
     }
   },
 });

@@ -8,8 +8,8 @@
         "FirmwareVersion": "2.3.4"
     },
     "ImageSettings": {
-        "Width": 1500,
-        "Height": 300,
+        "Width": 1000,
+        "Height": 100,
         "PixelFormat": "Mono8",
         "OffsetX": 0,
         "OffsetY": 0,

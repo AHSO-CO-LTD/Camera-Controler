@@ -1,7 +1,7 @@
 {
   "name": "demo-drb",
   "version": "1.0.0",
-  "description": "Demo DRB Application",
+  "description": "DRB Application",
   "main": "main.js",
   "scripts": {
     "start": "npx electron .",
@@ -14,9 +14,7 @@
   "dependencies": {
     "axios": "^1.7.7",
     "bmp-js": "^0.1.0",
-    "edge.js": "^6.2.0",
-    "ffi-napi": "^4.0.3",
-    "ref-napi": "^3.0.3"
+    "edge.js": "^6.2.0"
   },
   "devDependencies": {
     "electron": "^25.0.0",
@@ -24,17 +22,16 @@
   },
   "build": {
     "appId": "com.yourcompany.demo-drb",
-    "productName": "Demo DRB",
+    "productName": "DRB",
     "copyright": "Copyright © 2024",
     "directories": {
       "output": "dist",
       "buildResources": "build"
     },
-    "asar": false,
+    "asar": true,
     "files": [
-      ".vscode/**/*",
-      "backend/**/*",
-      "images/**/*",
+      
+      "backend/images-logo/**/*",
       "javascript/**/*",
       "language/**/*",
       "node_modules/**/*",
@@ -45,28 +42,22 @@
       "package.json",
       "package-lock.json"
     ],
-    "extraResources": [
-      {
-        "from": "app/backend/backend.exe",
-        "to": "app/backend/backend.exe"
-      }
-    ],
     "win": {
-      "icon": "./backend/images/logo-drb.ico",
+      "icon": "./backend/images-logo/logo-drb.ico",
       "target": [
         "nsis",
         "portable"
       ]
     },
     "mac": {
-      "icon": "./backend/images/logo-drb.ico",
+      "icon": "./backend/images-logo/logo-drb.ico",
       "target": [
         "dmg",
         "zip"
       ]
     },
     "linux": {
-      "icon": "./backend/images/logo-drb.ico",
+      "icon": "./backend/images-logo/logo-drb.ico",
       "target": [
         "AppImage",
         "deb"

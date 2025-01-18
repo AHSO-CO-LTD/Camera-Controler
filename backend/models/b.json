@@ -8,8 +8,8 @@
         "FirmwareVersion": "2.3.4"
     },
     "ImageSettings": {
-        "Width": 500,
-        "Height": 100,
+        "Width": 1000,
+        "Height": 99,
         "PixelFormat": "Mono8",
         "OffsetX": 0,
         "OffsetY": 0,
@@ -18,13 +18,13 @@
     },
     "AcquisitionSettings": {
         "ExposureTime": {
-            "Value": 50000,
+            "Value": 20000,
             "Min": 10,
             "Max": 1000000,
             "Unit": "microseconds"
         },
         "Gain": {
-            "Value": 5,
+            "Value": 1,
             "Min": 0,
             "Max": 48,
             "Unit": "dB"

@@ -68,7 +68,7 @@
         height: 5px;
       }
       .loading span::before {
-        content: '';
+        content: "";
         position: absolute;
         inset: 0;
         background-color: #0f0;
@@ -78,24 +78,27 @@
       }
       @keyframes animate {
         0% {
-            transform-origin: 0 20px;
-            filter: hue-rotate(0deg);
+          transform-origin: 0 20px;
+          filter: hue-rotate(0deg);
         }
         20% {
-            transform: rotate(calc(-90deg * var(--i)));
+          transform: rotate(calc(-90deg * var(--i)));
         }
         60% {
-            transform: rotate(calc(0deg * var(--i)));
+          transform: rotate(calc(0deg * var(--i)));
         }
         100% {
-            transform: hue-rotate(360deg);
+          transform: hue-rotate(360deg);
         }
       }
     </style>
   </head>
   <body>
     <div class="intro-container">
-      <img src="../backend/images/0659dfc95f9aa2b772c45b66f2a24c7514.png" alt="Logo" />
+      <img
+        src="../backend/images-logo/0659dfc95f9aa2b772c45b66f2a24c7514.png"
+        alt="Logo"
+      />
       <div class="loading">
         <span style="--i: 1"></span>
         <span style="--i: 2"></span>
@@ -121,6 +124,10 @@
     </div>
 
     <script>
+      // // Lắng nghe tín hiệu từ main process thông qua preload.js
+      // window.addEventListener("DOMContentLoaded", () => {
+      //   window.backendReady();
+      // });
       setTimeout(() => {
           window.location.href = "index.html";
       }, 3000);

@@ -371,29 +371,17 @@ body {
   }
 }
 
-
-
-
-
-
-// ===== Event Listener cho runButton =====
-runButton.addEventListener("click", async () => {
-  if (isGrabbing) {
-    // Dừng việc grab và live
-    isGrabbing = false;
-    console.log("Grabbing stopped.");
-    if (isLive) {
-      await stopLive(); // Gọi stopLive
-    }
-  } else {
-    // Bắt đầu grab và live
-    isGrabbing = true;
-    console.log("Grabbing started.");
-    if (!isLive) {
-      await startLive(); // Gọi startLive
-    }
-    updateResults();
-  }
-  updateButtonState();
-});
-
+"files": [
+      ".vscode/**/*",
+      "backend/**/*",
+      "images/**/*",
+      "javascript/**/*",
+      "language/**/*",
+      "node_modules/**/*",
+      "style/**/*",
+      "view/**/*",
+      "index.html",
+      "main.js",
+      "package.json",
+      "package-lock.json"
+    ],

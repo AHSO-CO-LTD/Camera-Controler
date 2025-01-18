@@ -53,16 +53,19 @@ function resetAll() {
   timerInterval = null;
   lostTimeInterval = null;
 
-  showStatus(
-    "Reset time.",
-    "inactive"
-  );
+  showStatus("Reset time.", "inactive");
 }
-
-// Sự kiện click cho nút "Run"
-
+// Hàm kiểm tra giá trị countActual và countStandard
+function checkCountValues() {
+  if (countActual.textContent === countStandard.textContent) {
+    console.log("Values are equal. Stopping timer...");
+    clearInterval(timerInterval); // Dừng đếm footer-time
+    timerInterval = null;
+    elapsedTime = 0; // Reset thời gian
+    document.getElementById("footer-time").textContent = "00:00:00"; // Đặt lại giao diện
+  }
+}
 document.getElementById("run-button").addEventListener("click", () => {
-
   // Nếu đang chạy thì dừng đếm, nếu không thì bắt đầu đếm
   if (timerInterval) {
     clearInterval(timerInterval); // Dừng đếm thời gian chính
@@ -84,6 +87,7 @@ document.getElementById("run-button").addEventListener("click", () => {
     stopLostTime();
   }
 });
+
 // Sự kiện click cho nút "Reset"
 document.getElementById("reset-button").addEventListener("click", () => {
   resetAll();

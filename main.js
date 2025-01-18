@@ -1,17 +1,36 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, Menu } = require("electron");
 const path = require("path");
 const { execFile } = require("child_process");
 
 let pythonProcess = null;
 
+// function getBackendPath() {
+//   const isPackaged = app.isPackaged; // Kiểm tra ứng dụng đã đóng gói hay chưa
+//   const backendPath = isPackaged
+//     ? path.join(
+//         process.resourcesPath,
+//         "app",
+//         "backend",
+//         "dist",
+//         "backend",
+//         "backend.exe"
+//       ) // Đường dẫn khi đóng gói
+//     : path.join(
+//         __dirname,
+//         "backend",
+//         "dist",
+//         "backend",
+//         "backend.exe"
+//       ); // Đường dẫn khi phát triển
+//   return backendPath;
+// }
 function getBackendPath() {
   const isPackaged = app.isPackaged; // Kiểm tra ứng dụng đã đóng gói hay chưa
   const backendPath = isPackaged
-    ? path.join(process.resourcesPath, "app", "backend", "backend.exe") // Đường dẫn khi đóng gói
+    ? path.join(process.resourcesPath, "backend.exe") // Đường dẫn khi đóng gói
     : path.join(__dirname, "backend", "backend.exe"); // Đường dẫn khi phát triển
   return backendPath;
 }
-
 function runPythonBackend() {
   const pythonExePath = getBackendPath();
   const backendCwd = path.dirname(pythonExePath);
@@ -63,6 +82,7 @@ function createWindow() {
   mainWindow.webContents.on("did-finish-load", () => {
     const currentURL = mainWindow.webContents.getURL();
     if (currentURL.includes("intro.html")) {
+      // console.log(runPythonBackend());
       setTimeout(() => {
         mainWindow.loadFile(path.join(__dirname, "index.html")).catch((err) => {
           console.error("Failed to load index.html:", err);
@@ -70,7 +90,8 @@ function createWindow() {
       }, 3000);
     }
   });
-
+  // Loại bỏ thanh menu
+  // Menu.setApplicationMenu(null);
   // Dọn dẹp khi cửa sổ đóng
   mainWindow.on("closed", () => {
     mainWindow = null;
@@ -93,6 +114,9 @@ ipcMain.on("open-settings", () => {
   settingsWindow
     .loadFile("./view/setting.html")
     .catch((err) => console.error("Failed to load setting.html:", err));
+
+  // Loại bỏ thanh menu
+  // Menu.setApplicationMenu(null);
 });
 // ================= Create Window Model =================
 ipcMain.on("open-model", () => {
@@ -108,6 +132,9 @@ ipcMain.on("open-model", () => {
   modelWindow
     .loadFile("./view/model.html")
     .catch((err) => console.error("Failded to load model.html:", err));
+
+  // Loại bỏ thanh menu
+  // Menu.setApplicationMenu(null);
 });
 app.whenReady().then(() => {
   runPythonBackend();
