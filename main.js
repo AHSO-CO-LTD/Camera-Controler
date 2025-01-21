@@ -102,7 +102,7 @@ function createWindow() {
 ipcMain.on("open-settings", () => {
   // Tạo cửa sổ settings
   const settingsWindow = new BrowserWindow({
-    width: 730,
+    width: 830,
     height: 740,
     parent: mainWindow, // Đặt parent là mainWindow
     modal: true,
@@ -121,7 +121,7 @@ ipcMain.on("open-settings", () => {
 // ================= Create Window Model =================
 ipcMain.on("open-model", () => {
   const modelWindow = new BrowserWindow({
-    width: 730,
+    width: 830,
     height: 740,
     parent: mainWindow,
     model: true,

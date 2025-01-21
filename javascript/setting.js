@@ -1,7 +1,7 @@
 // =========== Open window setting call get camera setting ===========
 // ========= Menu =========
 function selectMenu(menu) {
-  const menuItems = ["ccd", "camera"];
+  const menuItems = ["ccd", "connect-camera", "history", "vision"];
   menuItems.forEach((item) => {
     document.getElementById(item).classList.remove("active");
     document.getElementById(`${item}-content`).classList.remove("active");
@@ -10,7 +10,7 @@ function selectMenu(menu) {
   document.getElementById(`${menu}-content`).classList.add("active");
 }
 // ========= Get value model =========
-const nameModelSetting = document.getElementById("name-model-setting");
+const nameModelSetting = document.getElementById("name-model");
 document.addEventListener("DOMContentLoaded", async () => {
   const selectedModel = localStorage.getItem("selectedModel");
 
@@ -42,13 +42,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("exposure").value =
         modelData.AcquisitionSettings.ExposureTime.Value;
       // Camera
-      document.getElementById("name-camera").textContent =
+      document.getElementById("camera-select").value =
         modelData.DeviceInformation.DeviceName;
     }
   } catch (error) {
     console.error("Error reading JSON file:", error);
   }
-
   // const filePath = `../backend/models/${nameModelSetting.textContent}`; // Đường dẫn đến file JSON
   // // Truy xuất file JSON
   // fetch(filePath)
@@ -79,8 +78,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   //   });
 });
 
-// ====== Apply Settings ======
-const applySettingsButton = document.getElementById("apply_settings");
+// ====== CCD ======
+const statusCCD = document.getElementById("status-para-response");
+const applySettingsButton = document.getElementById("set-data-ccd");
 applySettingsButton.addEventListener("click", async () => {
   // Gọi luôn api saveModel khi cài đặt thông số camera
   const nameModel = nameModelSetting.textContent;
@@ -94,18 +94,27 @@ applySettingsButton.addEventListener("click", async () => {
   const exposure = document.getElementById("exposure").value;
 
   const settings = { width, height, offsetX, offsetY, gain, exposure };
-  await window.api.setCameraSettings(settings);
+  const response = await window.api.setCameraSettings(settings);
+  document.getElementById("width").value = " ";
+  document.getElementById("height").value = " ";
+  document.getElementById("offsetX").value = " ";
+  document.getElementById("offsetY").value = " ";
+  document.getElementById("gain").value = " ";
+  document.getElementById("exposure").value = " ";
+  statusCCD.textContent = response.message
 });
 
 // ===================== Camera =====================
 // Connect camera
-document.getElementById("connectCamera").addEventListener("click", async () => {
-  await window.api.connectCamera();
-  // await window.api.getCameraSettings();
-});
+document
+  .getElementById("connect-camera-btn")
+  .addEventListener("click", async () => {
+    await window.api.connectCamera();
+    // await window.api.getCameraSettings();
+  });
 // Disconnect camera
 document
-  .getElementById("disconnectCamera")
+  .getElementById("disconnect-camera-btn")
   .addEventListener("click", async () => {
     const response = await window.api.disconnectCamera();
     console.log(response.message);

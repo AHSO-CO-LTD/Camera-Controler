@@ -3,16 +3,16 @@ $primary-color: #1abc9c;
 $primary-dark: #16a085;
 $secondary-color: #e74c3c;
 $secondary-dark: #c0392b;
-$background-color: #34495e;
-$text-color: white;
+$background-color: #ecf0f1;
+$text-color: rgb(241, 239, 239);
 $hover-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 $border-radius: 8px;
 $stop-color: #ffc107;
 // Màu sắc và các biến
 $status-bg: rgba(0, 0, 0, 0.8); // Nền trạng thái
-$status-color: #fff; // Màu chữ
+$status-color: #34495e; // Màu chữ
 $status-padding: 10px 20px;
-$status-margin: 10px;
+$status-margin: 1vh;
 $status-duration: 3s; // Thời gian hiển thị trạng thái
 // Mixin for button styles
 @mixin button-style($primary-color, $text-color) {
@@ -26,7 +26,7 @@ $status-duration: 3s; // Thời gian hiển thị trạng thái
   cursor: pointer;
   display: inline-block;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(182, 182, 182, 0.3);
 
   &:hover {
     transform: translateY(-5px);
@@ -87,7 +87,6 @@ body {
 
 // Loading connect to python
 #loading {
-  
   position: fixed;
   top: 0;
   left: 0;
@@ -100,7 +99,7 @@ body {
   z-index: 1000;
   p {
     font-size: 2vw;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-shadow: 2px 2px 4px rgba(228, 215, 215, 0.7);
     animation: shake 1s infinite alternate, shadow 1.5s infinite alternate;
   }
 }
@@ -236,8 +235,8 @@ body {
         gap: 1vw;
         .button {
           @include button-style($primary-color, $text-color);
-          height: 7vh;
-          width: 4vw;
+          height: 7.5vh;
+          width: 5vw;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -253,14 +252,15 @@ body {
     }
     // =========== Left center ===========
     .left-center {
-      margin-top: 10px;
-      height: 75vh;
+      margin-top: 1vh;
+      height: 76vh;
       width: 100%;
       background-color: $background-color;
       width: 100%;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       transition: box-shadow 0.3s;
+      // border: 1px solid red;
       // =========== Result Camera ===========
       .container-result-camera {
         height: 20vh;
@@ -292,7 +292,7 @@ body {
           // ======== Count ==========
           .count-container {
             display: flex;
-            width: 100%;
+            width: 50%;
             justify-content: space-between;
             align-items: center;
             position: relative; // Đảm bảo canvas nằm trong container này
@@ -302,11 +302,11 @@ body {
               height: 15vh;
               background: repeating-conic-gradient(
                 from var(--a),
-                #ededed 0%,
-                #ededed 5%,
+                $primary-color 0%,
+                $primary-color 5%,
                 transparent 5%,
                 transparent 40%,
-                #ededed 50%
+                $primary-color 50%
               );
               animation: rotating 2s linear infinite;
               border-radius: 15px;
@@ -361,8 +361,7 @@ body {
       }
       // =========== View Camera ===========
       .camera {
-        background-color: $background-color;
-        height: 60vh;
+        height: 57vh;
         width: 100%;
         border-radius: 0 0 10px 10px;
         transition: box-shadow 0.3s;
@@ -395,23 +394,21 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1vh;
     background-color: $background-color;
-    padding: 0px 15px 15px 15px; // Tăng padding để phù hợp chiều cao
+    padding: 0px 15px; // Tăng padding để phù hợp chiều cao
     border-radius: 10px;
     color: $text-color;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s;
     width: 35%;
-    height: 90vh;
+    height: 86.5vh;
 
     &:hover {
       box-shadow: $hover-shadow;
     }
 
     .production {
-      @include button-style($primary-color, $text-color);
-      // margin-bottom: 5px;
+      @include button-style($primary-dark, $text-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -419,8 +416,10 @@ body {
       font-size: 1.2vw; // Tăng font-size
 
       .search-container {
-        background-color: white;
+        background-color: $background-color;
         border-radius: 8px;
+        display: flex;
+        align-items: center;
         input {
           @include input-style();
           border: none;
@@ -445,46 +444,12 @@ body {
       }
     }
 
-    .container-model {
-      background-color: $background-color;
-      border-radius: $border-radius;
-      display: flex;
-      justify-content: space-between;
-      .model {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        display: flex;
-        background-color: $background-color;
-        .group-input-model {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-          width: 80%;
-          input {
-            @include input-style();
-          }
-        }
-        .group-button-model {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-          width: 20%;
-          button {
-            @include button-style($primary-color, $text-color);
-            height: 6.8vh;
-            border: none;
-            width: 100%;
-          }
-        }
-      }
-    }
     //  ================= Details ==================
     .details {
-      background-color: #2c3e50; /* Giữ nguyên màu nền */
+      background-color: $primary-dark; /* Giữ nguyên màu nền */
       padding: 0 1vw;
       border-radius: 8px;
-      // Table styling
+      height: 30vh;
       table {
         width: 100%;
         border-collapse: separate; // Thay đổi sang "separate"
@@ -517,8 +482,8 @@ body {
           text-align: left;
         }
         th {
-          // background-color: $primary-color;
-          color: white;
+          background-color: $primary-dark;
+          color: $text-color;
           font-weight: bold;
           text-transform: uppercase;
         }
@@ -528,7 +493,7 @@ body {
     //  ================= Cycle Time Section, Footer Right Section ==================
     .cycle-time,
     .footer-right {
-      background-color: #2c3e50; /* Giữ nguyên màu nền */
+      background-color: $primary-dark; /* Giữ nguyên màu nền */
       border-radius: $border-radius; /* Tăng độ bo tròn */
       font-size: 1.2vw;
       padding: 1.2vw;
@@ -545,7 +510,9 @@ body {
         }
       }
     }
-
+    .cycle-time {
+      height: 8vh;
+    }
     // Footer Right Section
     .footer-right {
       height: 18vh;
@@ -564,7 +531,7 @@ body {
 
         .value {
           width: 50%;
-          color: $primary-color;
+          color: $text-color;
           font-weight: bold;
           text-align: right;
         }
@@ -586,6 +553,7 @@ body {
       display: flex;
       justify-content: right;
       margin-bottom: $status-margin;
+      color: $status-color;
     }
   }
 }

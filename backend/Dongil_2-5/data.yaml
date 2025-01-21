@@ -1,5 +1,5 @@
 names:
-  - Couter
+- Couter
 nc: 1
 roboflow:
   license: CC BY 4.0

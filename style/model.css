@@ -1,10 +1,12 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f7f9fc;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 .container {
@@ -12,95 +14,133 @@ body {
   max-width: 800px;
   padding: 20px;
   background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
-.container h1,
-.container h2 {
-  font-weight: bold;
-  color: #343a40;
-  text-align: center;
+.container h1 {
+  font-size: 2rem;
+  color: #16a085;
   margin-bottom: 10px;
 }
 .container .input-group {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+  gap: 15px;
+  margin-bottom: 10px;
 }
 .container .input-group input[type=text] {
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  transition: border-color 0.2s;
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #dcdfe3;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #34495e;
+  transition: all 0.3s ease;
+  width: 95%;
 }
 .container .input-group input[type=text]:focus {
-  border-color: #6c757d;
+  border-color: #1abc9c;
+  box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
   outline: none;
 }
 .container .button-group {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   margin-bottom: 10px;
-  gap: 5px;
 }
 .container .button-group button {
-  width: 48%;
-  padding: 10px;
+  width: calc(33.3% - 10px);
+  padding: 12px;
+  font-size: 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
+  background-color: #1abc9c;
   color: white;
-  font-size: 16px;
   cursor: pointer;
-  background-color: #007bff;
-  transition: transform 0.2s, opacity 0.2s;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.container .button-group button:hover {
+  background-color: #148f77;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 .container .button-group button:active {
   transform: scale(0.95);
-  opacity: 0.8;
+  opacity: 0.9;
 }
-.container .button-group button.save {
-  background-color: #007bff;
-}
-.container .button-group button.load {
-  background-color: #28a745;
-}
-.container .button-group button.create {
-  background-color: #ffc107;
+.container .list-model {
+  margin-bottom: 10px;
 }
 .container .list-model .model-item {
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  transition: border-color 0.2s;
-  border: none;
-  background-color: #ddd;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: #f0f2f5;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
-.container .list-model .model-item:focus {
-  border-color: #6c757d;
-  outline: none;
-}
-.container .list-model .model-item:active {
-  background-color: #f8f9fa;
+.container .list-model .model-item:hover {
+  background-color: #aef4e6;
 }
 .container .model-details {
   margin-top: 10px;
+  padding: 15px;
+  border: 1px solid #dcdfe3;
+  border-radius: 10px;
+  background-color: #f9fbfd;
+}
+.container .model-details h2 {
+  font-size: 1.5rem;
+  color: #16a085;
+  margin-bottom: 10px;
+}
+.container .model-details p {
+  font-size: 1rem;
+  color: #34495e;
+  margin-bottom: 10px;
 }
 .container .model-details .row {
   display: flex;
-  justify-content: space-between;
+  gap: 15px;
   margin-bottom: 10px;
+}
+.container .model-details .row label {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #34495e;
+}
+.container .model-details .row label input[type=number] {
   width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #dcdfe3;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #34495e;
+  transition: all 0.3s ease;
+  width: 90%;
 }
-.container .model-details .row input[type=number] {
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  transition: border-color 0.2s;
-}
-.container .model-details .row input[type=number]:focus {
-  border-color: #6c757d;
+.container .model-details .row label input[type=number]:focus {
+  border-color: #1abc9c;
+  box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
   outline: none;
+}
+
+@media (max-width: 768px) {
+  .input-group,
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .input-group button,
+  .button-group button {
+    width: 100%;
+  }
+  .row {
+    flex-direction: column;
+  }
+  .row label {
+    width: 100%;
+  }
 }/*# sourceMappingURL=model.css.map */

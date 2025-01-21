@@ -3,7 +3,7 @@ const originalImage = document.getElementById("original-image");
 const processedImage = document.getElementById("processed-image");
 // Element result couter
 const countActual = document.getElementById("count-actual");
-const countStandard = document.getElementById("count-standard");
+
 // Element name model
 const nameModel = document.getElementById("name-model");
 // Element show status
@@ -12,13 +12,16 @@ const showStatus = document.getElementById("value-show-status");
 const cycleTime = document.getElementById("cycle-count-value");
 // Element belt
 const valueBelt = document.getElementById("footer-qty");
-// Element input standard 
+// Element input standard and actual
 const inputStandard = document.getElementById("quantity-value-standard");
+const valueActual = document.getElementById("quantity-value-actual");
 // Response backend
 let response;
 // Stop time
 let stopTime;
 document.addEventListener("DOMContentLoaded", async () => {
+  // Initial Python
+  await window.api.initialPython();
   // Kiểm tra python đã Schạy hoàn tất chưa
   checkBackendContinuously();
 });
@@ -29,15 +32,19 @@ if (selectedModel) {
 } else {
   console.log("No model selected.");
 }
-// ====== Open window setting ======
+// ======================================= Open window setting =======================================
 document.getElementById("setting-button").addEventListener("click", () => {
   window.api.openSettings(); // Gọi hàm từ preload.js để mở settings
 });
-// ====== Oen window model ======
+// ======================================= Oen window model =======================================
 document.getElementById("model-button").addEventListener("click", () => {
   window.api.openModel();
 });
-
+// ======================================= Report =======================================
+document.getElementById("report-button").addEventListener("click", async () => {
+  const data = await window.api.scanCam();
+  console.log(data);
+});
 // =======================================  Check backend =======================================
 async function checkBackendContinuously() {
   const checkBackend = document.getElementById("loading");
@@ -74,6 +81,7 @@ document
 
     // Hiển thị kết quả
     countActual.textContent = results;
+    valueActual.textContent = results;
     // Hiển thị ảnh
     processedImage.src = imageUrl;
     // Status
@@ -143,6 +151,7 @@ const updateResults = async () => {
     const message = response.message;
     // Hiển thị kết quả
     countActual.textContent = result;
+    valueActual.textContent = result;
     // Hiển thị hình ảnh
     processedImage.src = imageUrl;
     // Status
@@ -151,13 +160,13 @@ const updateResults = async () => {
     cycleTime.textContent = cycleTimeValue;
     // Kiểm tra nếu countActual và countStandar thì dừng
 
-    if (countActual.textContent === countStandard.textContent) {
+    if (countActual.textContent === inputStandard.value) {
       console.log("Equal value. Stopping grab...");
       isGrabbing = false;
       updateButtonState();
       showStatus.textContent = "Grabbing stopped (Equal value).";
       await window.api.imagePass();
-      valueBelt.textContent = parseInt(valueBelt.textContent, 10) + 1;    
+      valueBelt.textContent = parseInt(valueBelt.textContent, 10) + 1;
       return;
     }
 
@@ -204,9 +213,16 @@ runButton.addEventListener("click", async () => {
 });
 
 // ====== Compare standard vs actual ======
+//Element result status count
+function checkStatusResult(){
+  
+}
+const resultStatus = document.getElementById("result-status");
+const textResult = document.getElementById("context-result");
+
 runButton.addEventListener("click", async () => {
   if (runButtonText.textContent.trim() === "RUN") {
-    if (countActual.textContent === countStandard.textContent) {
+    if (countActual.textContent === inputStandard.value) {
       await window.api.imagePass();
     } else {
       await window.api.imageError();
@@ -214,9 +230,5 @@ runButton.addEventListener("click", async () => {
   }
 });
 
-// ====== Wires ======
 
-inputStandard.addEventListener("change", () => {
-  countStandard.textContent = inputStandard.value;
-  
-});
+

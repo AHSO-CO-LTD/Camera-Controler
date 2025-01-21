@@ -38,7 +38,7 @@ lock = threading.Lock()  # Khóa để đồng bộ trạng thái
 
 
 
-# =====================================  Xử lý ảnh ===================================== 
+# =====================================  Xử lý ảnh =====================================                 
 
 rf = Roboflow(api_key="48CBzmZdDcLQN3tvNyLz")
 project = rf.workspace("trieu-l6awr").project("dongil_2")
@@ -82,7 +82,7 @@ model = YOLO("./runs/detect/train/weights/best.pt")  # Thay "yolov8n.pt" bằng 
 # model.train(data="./Dongil_2-5/data.yaml", epochs=100)  # Thay "path/to/data.yaml" bằng đường dẫn đến file YAML của bạn
 
 # Sử dụng mô hình để nhận diện vật thể trong hình ảnh
-# test_image_path = "./images/UpCamera (21643460)_20241121_143939078_1021.png"
+# test_image_path ="../images/UpCamera-21643460-_20241120_162810940_0357_png.rf.3c2851bc05d0101e2dde0d5108147edd.jpg";
 # results = model.predict(test_image_path)  # Thay "path/to/image.jpg" bằng đường dẫn hình ảnh bạn muốn kiểm tra
 
 # Hiển thị kết quả

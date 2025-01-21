@@ -26,6 +26,8 @@ pip install flask pypylon opencv-python-headless
 pip install opencv-python opencv-python-headless flask
 
 # Roboflow
+pip install roboflow   
+Sửa tại đường dẫn C:\Users\tranh\AppData\Roaming\Ultralytics\settings.json
 
 # Electron
 

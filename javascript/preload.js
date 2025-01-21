@@ -12,7 +12,28 @@ contextBridge.exposeInMainWorld("api", {
   onBackendReady: (callback) => {
     ipcRenderer.on("backend-ready", callback);
   },
-
+  initialPython: async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/bee/InitialPython"
+      );
+      if (!response.ok) throw new Error("Faild to scan camera.");
+      return response.json();
+    } catch (error) {
+      console.error("Error scan camera: ", error);
+      return { message: "Error scan camera ", error: error.message };
+    }
+  },
+  scanCam: async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/bee/ScanCam");
+      if (!response.ok) throw new Error("Fail to grab check");
+      return response.json();
+    } catch (error) {
+      console.error("Error grab check: ", error);
+      return { message: "Error grab check ", error: error.message };
+    }
+  },
   connectCamera: async () => {
     try {
       const response = await fetch("http://localhost:5000/api/connect_camera", {
@@ -319,7 +340,6 @@ contextBridge.exposeInMainWorld("api", {
       return;
     }
     try {
-      
       const response = await fetch(
         `http://localhost:5000/api/read_model?file=${nameModelSetting}`,
         {

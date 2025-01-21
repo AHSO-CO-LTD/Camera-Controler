@@ -1,130 +1,291 @@
-// === Variables ===
-$primary-color: #007bff;
-$danger-color: #dc3545;
-$success-color: #28a745;
-$warning-color: #ffc107;
-$gray-color: #6c757d;
-$light-color: #f8f9fa;
-$dark-color: #343a40;
-$border-color: #ddd;
-$white-color: white;
-$text-color: white;
+// Color and spacing variables
+$primary-color: #1abc9c;
+$primary-dark: #16a085;
+$secondary-color: #e74c3c;
+$secondary-dark: #c0392b;
+$background-color: #f7f9fc;
+$text-color: #ecf0f1;
+$backgroup-input: #ffffff;
+$hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+$border-radius: 8px;
+$spacing-unit: 1vh;
 
-// === Global Spacing ===
-$margin-bottom: 10px;
-$margin-right: 10px;
-$margin-top: 10px;
-$boder-radius-all: 10px;
-
-// === Mixins ===
-@mixin button-style($bg-color) {
-  width: 48%;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  font-size: 16px;
+// Màu sắc và các biến
+$status-bg: rgba(0, 0, 0, 0.8); // Nền trạng thái
+$status-color: #34495e; // Màu chữ
+$status-padding: 10px 20px;
+$status-margin: 10px;
+$status-duration: 3s; // Thời gian hiển thị trạng thái
+// Mixin for button styles
+@mixin button-style($primary-dark, $text-color) {
+  background-color: $primary-dark;
+  color: $text-color;
+  border-radius: $border-radius;
+  font-weight: bold;
+  text-align: center;
   cursor: pointer;
-  background-color: $bg-color;
-  transition: transform 0.2s, opacity 0.2s;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100px;
+  height: 50px;
+  font-size: 0.8rem;
+  border: none;
+  &:hover {
+    background-color: lighten($primary-color, 8%);
+    box-shadow: $hover-shadow;
+    transform: translateY(-4px) scale(1.02);
+  }
 
   &:active {
-    transform: scale(0.95);
-    opacity: 0.8;
+    background-color: darken($primary-dark, 5%);
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+    transform: translateY(2px) scale(0.98);
   }
 }
-// === Inputs ===
-@mixin input-style($bg-color) {
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid $border-color;
-  border-radius: 4px;
-  transition: border-color 0.2s;
-
+// Input style
+@mixin input-style() {
+  padding: 2vh 1vw;
+  font-size: 1rem;
+  border: 2px solid $hover-shadow;
+  border-radius: $border-radius;
+  color: $status-bg;
+  width: 100%;
+  background-color: $backgroup-input;
+  transition: all 0.3s ease; // Thêm hiệu ứng chuyển đổi mượt mà
   &:focus {
-    border-color: $gray-color;
+    border-color: $primary-color;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-color: lighten($text-color, 10%);
     outline: none;
+    border: 2px solid $primary-color;
+  }
+  &::placeholder {
+    color: lighten($status-bg, 50%);
   }
 }
-// === Style ===
+// Global styles
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
-// === Header ===
-.header {
-  display: flex;
-  justify-content: space-around;
-  background-color: $gray-color;
-  padding: 10px 10px;
-  border-radius: 10px;
-  color: $text-color;
-  div {
-    flex: 1; // Chia đều chiều rộng cho các mục
-    cursor: pointer;
-    font-size: 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    text-align: center; // Canh giữa nội dung
-    padding: 5px 0;
 
-    &.active {
-      background-color: $border-color;
-      transform: translateY(-2px) scale(1.02);
-    }
-  }
-}
 .container {
   width: 90%;
   max-width: 800px;
-  padding: 20px;
-  background-color: $white-color;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: $boder-radius-all;
+  background-color: $background-color;
+  border-radius: $border-radius;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+
   .content {
     display: none;
+    background-color: $text-color;
+    color: $background-color;
+    padding: 10px;
+    border-radius: $border-radius;
+    box-shadow: $hover-shadow;
     &.active {
       display: block;
     }
+    p {
+      font-weight: 500;
+      color: $status-color;
+    }
+
+    input,
+    select,
+    textarea {
+      @include input-style();
+      width: 80%;
+      padding: 10px;
+      margin: 7px 0;
+      border: 1px solid #ccc;
+      border-radius: $border-radius;
+      transition: border-color 0.3s, box-shadow 0.3s;
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    }
   }
-  // ======== CCD ========
-  #ccd-content {
-    .row {
+
+  .header {
+    display: flex;
+    justify-content: space-around;
+    background-color: $primary-color;
+    padding: 2vh 2vw;
+    border-radius: 10px;
+    box-shadow: $hover-shadow;
+
+    div {
+      flex: 1; // Chia đều chiều rộng cho các mục
+      color: $text-color;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: $spacing-unit $spacing-unit * 1.5;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      text-align: center; // Canh giữa nội dung
+
+      &:hover,
+      &.active {
+        background-color: $primary-dark;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: $hover-shadow;
+      }
+    }
+  }
+
+  // Layout settings for sections
+  #connect-camera-content,
+  #ccd-content,
+  #history-content,
+  #vision-content {
+    margin-top: 10px;
+    padding: 20px;
+    div {
       display: flex;
-      width: 100%;
-      gap: $margin-right;
-      margin-bottom: $margin-bottom;
       justify-content: space-between;
       align-items: center;
-      label {
-        width: 30%;
-      }
-      input[type="number"] {
-        @include input-style(-color);
-        width: 70%;
+
+      p {
+        width: 20%;
+        font-size: 0.95em;
+        font-weight: 400;
       }
     }
+
     button {
-      @include button-style(-color);
-      &.applySettings {
-        background-color: $success-color;
-        width: 150px;
+      @include button-style($primary-color, $text-color);
+      background-color: #dd6b20;
+
+      &:hover {
+        background-color: #dd6c20d3;
       }
     }
   }
-  // ======== Camera ========
-  #camera-content {
-    button {
-      @include button-style(-color);
-      &.connect {
-        background-color: #28a745;
+  #connect-camera-content {
+    .group-button {
+      display: flex;
+      align-items: center;
+      width: 33%;
+      gap: 10px;
+    }
+  }
+
+  // Connect camera
+  #connect-camera-content {
+    #connect-camera-btn {
+      background-color: $primary-color;
+
+      &:hover {
+        background-color: $hover-shadow;
       }
-      &.disconnect {
-        background-color: $warning-color;
+    }
+    #camera-connection-status {
+      margin-top: 10px;
+    }
+  }
+  // CCD section styles
+  #ccd-content {
+    
+    h3 {
+      color: $status-color;
+    }
+    .res-container,
+    .offset-container {
+      gap: 10px;
+      p {
+        width: 20%;
+      }
+
+      input[type="number"] {
+        width: 40%;
+      }
+    }
+    .statusParaResponseDiv {
+      color: $status-color;
+      margin-top: 1vh;
+      font-size: 1rem;
+    }
+  }
+  // VISION CONTENT
+  #vision-content {
+    #python-test-folder-vision,
+    #python-train-folder-vision,
+    #yolo-folder-vision {
+      width: 63%;
+    }
+    .group-container {
+      .btn-set-vision {
+        @include button-style($primary-color, $text-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        font-size: 0.8rem;
+        height: 7vh;
+        width: 13vw;
+        background-color: #dd6b20;
+        b &:hover {
+          background-color: #c05621;
+        }
+      }
+    }
+    div {
+      button {
+        @include button-style($primary-color, $text-color);
+
+        margin-left: 10px;
+      }
+    }
+    .setVisionResponseDiv {
+      margin-top: 1.5vh;
+    }
+  }
+  // HISTORY content
+  #history-content {
+    padding: $spacing-unit;
+    table {
+      width: 100%;
+      table-layout: fixed; // Buộc các cột co dãn
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      background-color: white;
+      border-radius: $border-radius;
+      overflow: hidden;
+      box-shadow: $hover-shadow;
+      color: $status-color;
+      th,
+      td {
+        padding: 0.5rem;
+        text-align: left;
+        border: 1px solid $primary-color;
+        font-size: 1rem;
+      }
+
+      th {
+        background-color: $primary-color;
+        color: $text-color;
+        font-size: 1rem;
+        // font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      tr {
+        &:nth-child(even) {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        &:hover {
+          background-color: lighten($primary-color, 5%);
+          color: $text-color;
+          transition: background-color 0.3s ease;
+        }
       }
     }
   }
