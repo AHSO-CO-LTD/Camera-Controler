@@ -76,7 +76,7 @@ $status-duration: 3s; // Thời gian hiển thị trạng thái
   inherits: false;
   initial-value: 0deg;
 }
-body {
+body { 
   margin: 0;
   font-family: "Poppins", sans-serif;
   background-color: $background-color;
@@ -271,7 +271,7 @@ body {
           align-items: center;
           gap: 1vw;
           width: 100%;
-          .result {
+          .result-production {
             @include button-style(#27ae60, $text-color);
             display: flex;
             justify-content: center;

@@ -8,7 +8,7 @@
         "FirmwareVersion": "2.3.4"
     },
     "ImageSettings": {
-        "Width": 1000,
+        "Width": 1100,
         "Height": 100,
         "PixelFormat": "Mono8",
         "OffsetX": 0,
@@ -54,5 +54,9 @@
     "UserDefinedSettings": {
         "UserSetSelector": "Default",
         "UserSetSave": true
+    },
+    "SpinningCount": {
+        "StandardBelt": 26,
+        "SizeBelt": 25.4
     }
 }

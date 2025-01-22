@@ -35,7 +35,17 @@
       <div class="list-model" id="list-model"></div>
       <div class="model-details">
         <h2>Model Details</h2>
-        <p id="details-content">Select a model to see details</p>
+        <div class="row">
+          <label>
+            Belt Standard
+            <input type="number" id="belt-standard" />
+          </label>
+          <label>
+            Size Belt
+            <input type="number" id="belt-size" />
+          </label>
+        </div>
+        <h3 class="title-camera-detail">Camera</h3>
         <div class="row">
           <label>
             Width
@@ -67,6 +77,8 @@
           </label>
         </div>
       </div>
+       <!-- Status Display -->
+       <p class="status" id="status"></p>
     </div>
 
     <!-- Javascript -->

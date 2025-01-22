@@ -95,6 +95,11 @@ body {
   color: #16a085;
   margin-bottom: 10px;
 }
+.container .model-details h3 {
+  font-size: 1.3rem;
+  color: #16a085;
+  margin-bottom: 10px;
+}
 .container .model-details p {
   font-size: 1rem;
   color: #34495e;

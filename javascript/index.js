@@ -1,64 +1,68 @@
-// Element image original and processed
-const originalImage = document.getElementById("original-image");
-const processedImage = document.getElementById("processed-image");
-// Element result couter
-const countActual = document.getElementById("count-actual");
+// ======================================= Element =======================================
+const elements = {
+  originalImage: document.getElementById("original-image"),
+  processedImage: document.getElementById("processed-image"),
+  countActual: document.getElementById("count-actual"),
+  nameModel: document.getElementById("name-model"),
+  showStatus: document.getElementById("value-show-status"),
+  cycleTime: document.getElementById("cycle-count-value"),
+  valueBelt: document.getElementById("footer-qty"),
+  inputStandard: document.getElementById("quantity-value-standard"),
+  valueActual: document.getElementById("quantity-value-actual"),
+  resultStatus: document.getElementById("result-status"),
+  textResult: document.getElementById("context-result"),
+  liveButtonText: document.getElementById("live-button-text"),
+  liveButtonIcon: document.getElementById("icon-live-run-stop"),
+  liveButton: document.getElementById("live-button"),
+  runButtonText: document.getElementById("run-button-text"),
+  runButton: document.getElementById("run-button"),
+  runButtonIcon: document.getElementById("icon-run-stop"),
+  triggerButton: document.getElementById("trigger-button"),
+  settingButton: document.getElementById("setting-button"),
+  modelButton: document.getElementById("model-button"),
+  reportButton: document.getElementById("report-button"),
+  loading: document.getElementById("loading"),
+};
 
-// Element name model
-const nameModel = document.getElementById("name-model");
-// Element show status
-const showStatus = document.getElementById("value-show-status");
-// Element cycle time
-const cycleTime = document.getElementById("cycle-count-value");
-// Element belt
-const valueBelt = document.getElementById("footer-qty");
-// Element input standard and actual
-const inputStandard = document.getElementById("quantity-value-standard");
-const valueActual = document.getElementById("quantity-value-actual");
-// Response backend
-let response;
-// Stop time
-let stopTime;
+let response,
+  stopTime,
+  isLive = false,
+  isGrabbing = false;
+
 document.addEventListener("DOMContentLoaded", async () => {
-  // Initial Python
   await window.api.initialPython();
-  // Kiểm tra python đã Schạy hoàn tất chưa
   checkBackendContinuously();
 });
-// Lấy tên model
-const selectedModel = localStorage.getItem("selectedModel");
-if (selectedModel) {
-  nameModel.textContent = selectedModel;
-} else {
-  console.log("No model selected.");
-}
-// ======================================= Open window setting =======================================
-document.getElementById("setting-button").addEventListener("click", () => {
-  window.api.openSettings(); // Gọi hàm từ preload.js để mở settings
+// Lắng nghe sự kiện "model-closed" từ tiến trình chính
+window.api.receive("model-closed", () => {
+  loadValueModel();
 });
-// ======================================= Oen window model =======================================
-document.getElementById("model-button").addEventListener("click", () => {
-  window.api.openModel();
+
+// ======================================= Mở cửa sổ cài đặt =======================================
+const openWindow = (action) => window.api[action]();
+elements.settingButton.addEventListener("click", () =>
+  openWindow("openSettings")
+);
+elements.modelButton.addEventListener("click", () => {
+  openWindow("openModel");
 });
-// ======================================= Report =======================================
-document.getElementById("report-button").addEventListener("click", async () => {
-  const data = await window.api.scanCam();
-  console.log(data);
+elements.reportButton.addEventListener("click", async () => {
+  alert("2");
 });
-// =======================================  Check backend =======================================
+
+// ======================================= Kiểm tra backend =======================================
 async function checkBackendContinuously() {
-  const checkBackend = document.getElementById("loading");
-  const interval = 3000; // Thời gian giữa mỗi lần gọi (ms)
+  const interval = 3000;
   const checkInterval = setInterval(async () => {
     try {
       response = await window.api.checkBackend();
       if (response.message === "Check backend finish") {
-        showStatus.textContent = "Backend is ready: " + response.message;
-        clearInterval(checkInterval); // Dừng việc gọi liên tục
-        checkBackend.style.display = "none";
+        elements.showStatus.textContent =
+          "Backend is ready: " + response.message;
+        clearInterval(checkInterval);
+        elements.loading.style.display = "none";
         response = await window.api.connectCamera();
-        // Status
-        showStatus.textContent = response.message;
+        elements.showStatus.textContent = response.message;
       } else {
         console.log("Still checking backend...");
       }
@@ -68,110 +72,92 @@ async function checkBackendContinuously() {
   }, interval);
 }
 
-// =======================================  Trigger =======================================
-document
-  .getElementById("trigger-button")
-  .addEventListener("click", async () => {
-    response = await window.api.trigger();
+// ======================================= Trigger =======================================
+elements.triggerButton.addEventListener("click", async () => {
+  response = await window.api.trigger();
+  const { processed_image_url, results, cycle_time, message } = response;
 
-    const imageUrl = response.processed_image_url; // Lấy URL ảnh từ API
-    const results = response.results;
-    const cycleTimeValue = response.cycle_time;
-    const message = response.message;
+  elements.countActual.textContent = results;
+  elements.valueActual.textContent = results;
+  elements.processedImage.src = processed_image_url;
+  elements.showStatus.textContent = message;
+  elements.cycleTime.textContent = cycle_time;
+});
 
-    // Hiển thị kết quả
-    countActual.textContent = results;
-    valueActual.textContent = results;
-    // Hiển thị ảnh
-    processedImage.src = imageUrl;
-    // Status
-    showStatus.textContent = message;
-    // Cycle time
-
-    cycleTime.textContent = cycleTimeValue;
-  });
 // ======================================= Live =======================================
-// ===== Start/Stop =====
-const liveButtonText = document.getElementById("live-button-text");
-const liveButton = document.getElementById("live-button");
-const liveButtonIcon = document.getElementById("icon-live-run-stop");
-
-let isLive = false;
-
 const updateLiveButtonState = (state) => {
   if (state) {
-    liveButtonText.textContent = "STOP";
-    liveButtonIcon.classList.remove = "fa-video";
-    liveButtonIcon.classList.add = "fa-stop";
-    liveButton.style.background = "#FFC107";
+    elements.liveButtonText.textContent = "STOP";
+    elements.liveButtonIcon.classList.replace("fa-video", "fa-stop");
+    elements.liveButton.style.background = "#FFC107";
   } else {
-    liveButtonText.textContent = "LIVE";
-    liveButtonIcon.classList.remove = "fa-stop";
-    liveButtonIcon.classList.add = "fa-video";
-    liveButton.style.background = "#1abc9c";
+    elements.liveButtonText.textContent = "LIVE";
+    elements.liveButtonIcon.classList.replace("fa-stop", "fa-video");
+    elements.liveButton.style.background = "#1abc9c";
   }
 };
-// Bắt đầu live
+
 const startLive = () => {
   response = window.api.getLiveUrl();
-  originalImage.src = response;
+  elements.originalImage.src = response;
   updateLiveButtonState(true);
   isLive = true;
-  // Status
-  showStatus.textContent = "Live stream started successfully.";
-};
-// Dừng live
-const stopLive = async () => {
-  response = await window.api.stopLive();
-  originalImage.src = "";
-  updateLiveButtonState(false);
-  isLive = false;
-  // Status
-  showStatus.textContent = response.message;
+  elements.showStatus.textContent = "Live stream started successfully.";
 };
 
-// ===== Event Listener =====
-liveButton.addEventListener("click", () => {
+const stopLive = async () => {
+  response = await window.api.stopLive();
+  elements.originalImage.src = "";
+  updateLiveButtonState(false);
+  isLive = false;
+  elements.showStatus.textContent = response.message;
+};
+
+elements.liveButton.addEventListener("click", () => {
   isLive ? stopLive() : startLive();
 });
 
 // ======================================= Run Grab =======================================
-// ====== Start/Stop ======
-const runButtonText = document.getElementById("run-button-text");
-const runButton = document.getElementById("run-button");
-const runButtonIcon = document.getElementById("icon-run-stop");
-let isGrabbing = false;
+const updateButtonState = () => {
+  if (isGrabbing) {
+    elements.runButtonText.textContent = "STOP";
+    elements.runButtonIcon.classList.replace("fa-play", "fa-stop");
+    elements.runButton.style.background = "#FFC107";
+  } else {
+    elements.runButtonText.textContent = "RUN";
+    elements.runButtonIcon.classList.replace("fa-stop", "fa-play");
+    elements.runButton.style.background = "#1abc9c";
+  }
+};
 
 const updateResults = async () => {
   try {
     const response = await window.api.startGrab();
-    const imageUrl = response.processed_image_url;
-    const result = response.results;
-    const cycleTimeValue = response.cycle_time;
-    const message = response.message;
-    // Hiển thị kết quả
-    countActual.textContent = result;
-    valueActual.textContent = result;
-    // Hiển thị hình ảnh
-    processedImage.src = imageUrl;
-    // Status
-    showStatus.textContent = message;
-    // Cycle time
-    cycleTime.textContent = cycleTimeValue;
-    // Kiểm tra nếu countActual và countStandar thì dừng
+    const { processed_image_url, results, cycle_time, message } = response;
 
-    if (countActual.textContent === inputStandard.value) {
+    elements.countActual.textContent = results;
+    elements.valueActual.textContent = results;
+    elements.processedImage.src = processed_image_url;
+    elements.showStatus.textContent = message;
+    elements.cycleTime.textContent = cycle_time;
+
+    if (elements.countActual.textContent === elements.inputStandard.value) {
       console.log("Equal value. Stopping grab...");
       isGrabbing = false;
       updateButtonState();
-      showStatus.textContent = "Grabbing stopped (Equal value).";
+      elements.showStatus.textContent = "Grabbing stopped (Equal value).";
       await window.api.imagePass();
-      valueBelt.textContent = parseInt(valueBelt.textContent, 10) + 1;
+      elements.valueBelt.textContent =
+        parseInt(elements.valueBelt.textContent, 10) + 1;
+      checkStatusResult();
+      // Time
+      timeCount();
+      stopTotalTime();
+      checkCountValues();
       return;
     }
 
     if (isGrabbing) {
-      // Gọi lại hàm sau 0.1s
       setTimeout(updateResults, 10);
     }
   } catch (error) {
@@ -181,54 +167,71 @@ const updateResults = async () => {
   }
 };
 
-const updateButtonState = async () => {
+elements.runButton.addEventListener("click", async () => {
+  elements.resultStatus.style.background = "#ffc107";
+  elements.textResult.textContent = "COUNTING";
   if (isGrabbing) {
-    runButtonText.textContent = "STOP";
-    runButtonIcon.classList.remove("fa-play");
-    runButtonIcon.classList.add("fa-stop");
-    runButton.style.background = "#FFC107";
-  } else {
-    runButtonText.textContent = "RUN";
-    runButtonIcon.classList.remove("fa-stop");
-    runButtonIcon.classList.add("fa-play");
-    runButton.style.background = "#1abc9c";
-  }
-};
-runButton.addEventListener("click", async () => {
-  if (isGrabbing) {
-    // Dừng việc grab
     isGrabbing = false;
-    console.log("Grabbing stopped.");
     setTimeout(() => {
-      showStatus.textContent = "Grabbing stopped.";
+      elements.showStatus.textContent = "Grabbing stopped.";
     }, 1000);
+    timeCount();
+    stopTotalTime();
   } else {
-    // Bắt đầu grab
-
     isGrabbing = true;
-    console.log("Grabbing started.");
     updateResults();
+    timeCount();
+    startTotalTime();
   }
   updateButtonState();
 });
 
-// ====== Compare standard vs actual ======
-//Element result status count
-function checkStatusResult(){
-  
+// ======================================= So sánh chuẩn vs thực tế =======================================
+function checkStatusResult() {
+  if (elements.countActual.textContent === elements.inputStandard.value) {
+    elements.resultStatus.style.background = "#27ae60";
+    elements.textResult.textContent = "PASS";
+  } else {
+    elements.resultStatus.style.background = "#e74c3c";
+    elements.textResult.textContent = "ERROR";
+  }
 }
-const resultStatus = document.getElementById("result-status");
-const textResult = document.getElementById("context-result");
 
-runButton.addEventListener("click", async () => {
-  if (runButtonText.textContent.trim() === "RUN") {
-    if (countActual.textContent === inputStandard.value) {
+elements.runButton.addEventListener("click", async () => {
+  if (elements.runButtonText.textContent.trim() === "RUN") {
+    if (elements.countActual.textContent === elements.inputStandard.value) {
+      checkStatusResult();
       await window.api.imagePass();
     } else {
+      checkStatusResult();
       await window.api.imageError();
     }
   }
 });
 
-
+// ======================================= Standard =======================================
+async function loadValueModel() {
+  const selectedModel = localStorage.getItem("selectedModel");
+  if (selectedModel) {
+    elements.nameModel.textContent = selectedModel;
+  } else {
+    console.log("No model selected.");
+  }
+  try {
+    const response = await window.api.readModel(selectedModel);
+    if (!response) {
+      console.error("Unable to receive response from API.");
+    } else if (!response.file_path) {
+      console.error("The returned data is invalid.");
+    } else {
+      const modelData = response.data;
+      document.getElementById("quantity-value-standard").value =
+        modelData.SpinningCount.StandardBelt;
+      document.getElementById("size-value-standard").value =
+        modelData.SpinningCount.SizeBelt;
+    }
+  } catch (error) {
+    console.error("Error reading JSON file:", error);
+  }
+}
 

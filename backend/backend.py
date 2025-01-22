@@ -584,7 +584,11 @@ def create_model():
             "UserDefinedSettings": {
                 "UserSetSelector": "Default",
                 "UserSetSave": True
-            }
+            }, 
+            "SpinningCount" : {
+                "StandardBelt": 27,
+                "SizeBelt": 25.4,
+            },
         }
 
         # Ghi dữ liệu vào file JSON

@@ -8,10 +8,13 @@ contextBridge.exposeInMainWorld("api", {
   on: (channel, callback) => ipcRenderer.on(channel, callback),
 
   // Gửi dữ liệu từ renderer đến main process
-  send: (channel, data) => ipcRenderer.send(channel, data),
-  onBackendReady: (callback) => {
-    ipcRenderer.on("backend-ready", callback);
+  send: (channel, data) => {
+    ipcRenderer.send(channel, data);
   },
+  receive: (channel, func) => {
+    ipcRenderer.on(channel, (event, ...args) => func(...args));
+  },
+
   initialPython: async () => {
     try {
       const response = await fetch(
@@ -258,7 +261,8 @@ contextBridge.exposeInMainWorld("api", {
     if (!nameModel) {
       return;
     }
-    const detailsContent = document.getElementById("details-content");
+    const beltStandard = document.getElementById("belt-standard");
+    const beltSize = document.getElementById("belt-size");
     const width = document.getElementById("width");
     const height = document.getElementById("height");
     const offsetX = document.getElementById("offsetX");
@@ -275,10 +279,11 @@ contextBridge.exposeInMainWorld("api", {
       );
       if (!response.ok) throw new Error("Failed to load model details");
       const data = await response.json();
+
       // Lấy giá trị từ json
-      const deviceName = data.DeviceInformation.DeviceName;
-      detailsContent.textContent = `Device name: ${deviceName}`;
       // Hiển thị thông tin chi tiết của file JSON
+      beltStandard.value = data.SpinningCount.StandardBelt;
+      beltSize.value = data.SpinningCount.SizeBelt;
       width.value = data.ImageSettings.Width;
       height.value = data.ImageSettings.Height;
       offsetX.value = data.ImageSettings.OffsetX;
@@ -298,13 +303,70 @@ contextBridge.exposeInMainWorld("api", {
     }
 
     // Thu thập giá trị từ các trường input
+    const beltStandard = document.getElementById("belt-standard").value;
+    const beltSize = document.getElementById("belt-size").value;
     const width = document.getElementById("width").value;
     const height = document.getElementById("height").value;
     const offsetX = document.getElementById("offsetX").value;
     const offsetY = document.getElementById("offsetY").value;
     const exposure = document.getElementById("exposure").value;
     const gain = document.getElementById("gain").value;
+    const statusContext = document.getElementById("status");
+    if (!width || !height || !offsetX || !offsetY || !exposure || !gain) {
+      statusContext.textContent =
+        "All fields are required. Please fill in all fields.";
+      return;
+    }
+    // Đối tượng chứa các cập nhật
+    const updates = {
+      "SpinningCount.StandardBelt": parseInt(beltStandard, 10),
+      "SpinningCount.SizeBelt": parseFloat(beltSize),
+      "ImageSettings.Width": parseInt(width, 10),
+      "ImageSettings.Height": parseInt(height, 10),
+      "ImageSettings.OffsetX": parseInt(offsetX, 10),
+      "ImageSettings.OffsetY": parseInt(offsetY, 10),
+      "AcquisitionSettings.ExposureTime.Value": parseInt(exposure, 10),
+      "AcquisitionSettings.Gain.Value": parseInt(gain, 10),
+    };
+    try {
+      // Gửi yêu cầu đến API
+      const response = await fetch("http://localhost:5000/api/update_model", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          file_name: nameModel, // Tên file model
+          updates: updates, // Giá trị cập nhật
+        }),
+      });
 
+      if (!response.ok) throw new Error("Fail to save model");
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error saving model: ", error);
+    }
+  },
+  saveCameraSetting: async (nameModel) => {
+    if (!nameModel) {
+      console.error("Model name is required.");
+      return;
+    }
+
+    // Thu thập giá trị từ các trường input
+    const width = document.getElementById("width").value;
+    const height = document.getElementById("height").value;
+    const offsetX = document.getElementById("offsetX").value;
+    const offsetY = document.getElementById("offsetY").value;
+    const exposure = document.getElementById("exposure").value;
+    const gain = document.getElementById("gain").value;
+    const statusContext = document.getElementById("status-para-response");
+    if (!width || !height || !offsetX || !offsetY || !exposure || !gain) {
+      statusContext.textContent =
+        "All fields are required. Please fill in all fields.";
+      return;
+    }
     // Đối tượng chứa các cập nhật
     const updates = {
       "ImageSettings.Width": parseInt(width, 10),
@@ -329,8 +391,7 @@ contextBridge.exposeInMainWorld("api", {
 
       if (!response.ok) throw new Error("Fail to save model");
 
-      const result = await response.json();
-      console.log("Model updated successfully:", result);
+      return await response.json();
     } catch (error) {
       console.error("Error saving model: ", error);
     }

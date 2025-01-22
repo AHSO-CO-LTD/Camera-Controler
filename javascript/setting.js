@@ -82,9 +82,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 const statusCCD = document.getElementById("status-para-response");
 const applySettingsButton = document.getElementById("set-data-ccd");
 applySettingsButton.addEventListener("click", async () => {
-  // Gọi luôn api saveModel khi cài đặt thông số camera
+  // Gọi luôn api saveCameraSetting khi cài đặt thông số camera
   const nameModel = nameModelSetting.textContent;
-  await window.api.saveModel(nameModel);
+  await window.api.saveCameraSetting(nameModel);
 
   const width = document.getElementById("width").value;
   const height = document.getElementById("height").value;
@@ -101,7 +101,7 @@ applySettingsButton.addEventListener("click", async () => {
   document.getElementById("offsetY").value = " ";
   document.getElementById("gain").value = " ";
   document.getElementById("exposure").value = " ";
-  statusCCD.textContent = response.message
+  statusCCD.textContent = response.message;
 });
 
 // ===================== Camera =====================

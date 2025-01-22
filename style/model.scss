@@ -76,7 +76,7 @@ body {
   h1 {
     font-size: 2rem;
     color: $primary-dark;
- 
+
     margin-bottom: $margin-bottom;
   }
 
@@ -99,8 +99,6 @@ body {
     button {
       @include button-style($primary-color);
     }
-
-   
   }
 
   .list-model {
@@ -129,6 +127,11 @@ body {
 
     h2 {
       font-size: 1.5rem;
+      color: $primary-dark;
+      margin-bottom: $margin-bottom;
+    }
+    h3 {
+      font-size: 1.3rem;
       color: $primary-dark;
       margin-bottom: $margin-bottom;
     }

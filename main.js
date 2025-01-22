@@ -91,7 +91,7 @@ function createWindow() {
     }
   });
   // Loại bỏ thanh menu
-  // Menu.setApplicationMenu(null);
+  Menu.setApplicationMenu(null);
   // Dọn dẹp khi cửa sổ đóng
   mainWindow.on("closed", () => {
     mainWindow = null;
@@ -116,7 +116,7 @@ ipcMain.on("open-settings", () => {
     .catch((err) => console.error("Failed to load setting.html:", err));
 
   // Loại bỏ thanh menu
-  // Menu.setApplicationMenu(null);
+  Menu.setApplicationMenu(null);
 });
 // ================= Create Window Model =================
 ipcMain.on("open-model", () => {
@@ -134,7 +134,11 @@ ipcMain.on("open-model", () => {
     .catch((err) => console.error("Failded to load model.html:", err));
 
   // Loại bỏ thanh menu
-  // Menu.setApplicationMenu(null);
+  Menu.setApplicationMenu(null);
+  // Khi đóng cửa sổ model, gửi tính hiệu đến index.js
+  modelWindow.on("closed", () => {
+    mainWindow.webContents.send("model-closed");
+  });
 });
 app.whenReady().then(() => {
   runPythonBackend();
