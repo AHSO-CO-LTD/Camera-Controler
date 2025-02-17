@@ -15,7 +15,9 @@ $status-padding: 10px 20px;
 $status-margin: 10px;
 $status-duration: 3s; // Thời gian hiển thị trạng thái
 // Mixin for button styles
+
 @mixin button-style($primary-color, $text-color) {
+  
   background: $primary-color;
   color: $text-color;
   padding: 1vh 1vw;

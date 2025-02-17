@@ -36,6 +36,24 @@ contextBridge.exposeInMainWorld("api", {
       return { message: "Error disconnecting camera", error: error.message };
     }
   },
+<<<<<<< Updated upstream
+=======
+  checkBackend: async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api//check_backend_ready",
+        {
+          method: "GET",
+        }
+      );
+      if (!response.ok) throw new Error("Faild to check backend.");
+      return response.json();
+     
+    } catch (error) {
+      return { message: "Error check backend", error: error.message };
+    }
+  },
+>>>>>>> Stashed changes
   setCameraSettings: async (settings) => {
     try {
       const response = await fetch("http://localhost:5000/api/set_settings", {

@@ -89,12 +89,103 @@ body {
   width: 48%;
   padding: 10px;
   border: none;
+<<<<<<< Updated upstream
   border-radius: 4px;
   color: white;
   font-size: 16px;
   cursor: pointer;
   background-color: -color;
   transition: transform 0.2s, opacity 0.2s;
+=======
+  border: #16a085;
+  background-color: #dd6b20;
+}
+.container #connect-camera-content button:hover,
+.container #ccd-content button:hover,
+.container #history-content button:hover,
+.container #vision-content button:hover {
+  background-color: #1fe0ba;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px) scale(1.02);
+}
+.container #connect-camera-content button:active,
+.container #ccd-content button:active,
+.container #history-content button:active,
+.container #vision-content button:active {
+  background-color: #17a689;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px) scale(0.98);
+}
+.container #connect-camera-content button:hover,
+.container #ccd-content button:hover,
+.container #history-content button:hover,
+.container #vision-content button:hover {
+  background-color: rgba(221, 108, 32, 0.8274509804);
+}
+.container #connect-camera-content .group-button {
+  display: flex;
+  align-items: center;
+  width: 33%;
+  gap: 10px;
+}
+.container #connect-camera-content #connect-camera-btn {
+  background-color: #1abc9c;
+}
+.container #connect-camera-content #connect-camera-btn:hover {
+  background-color: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.container #connect-camera-content #camera-connection-status {
+  margin-top: 10px;
+}
+.container #ccd-content h3 {
+  color: #34495e;
+}
+.container #ccd-content .res-container,
+.container #ccd-content .offset-container {
+  gap: 10px;
+}
+.container #ccd-content .res-container p,
+.container #ccd-content .offset-container p {
+  width: 20%;
+}
+.container #ccd-content .res-container input[type=number],
+.container #ccd-content .offset-container input[type=number] {
+  width: 40%;
+}
+.container #ccd-content .statusParaResponseDiv {
+  color: #34495e;
+  margin-top: 1vh;
+  font-size: 1rem;
+}
+.container #vision-content #python-test-folder-vision,
+.container #vision-content #python-train-folder-vision,
+.container #vision-content #yolo-folder-vision {
+  width: 63%;
+}
+.container #vision-content .group-container .btn-set-vision {
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100px;
+  height: 50px;
+  font-size: 0.8rem;
+  border: none;
+  border: #16a085;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-size: 0.8rem;
+  height: 7vh;
+  width: 13vw;
+  background-color: #dd6b20;
+>>>>>>> Stashed changes
 }
 .container #camera-content button:active {
   transform: scale(0.95);
@@ -103,6 +194,76 @@ body {
 .container #camera-content button.connect {
   background-color: #28a745;
 }
+<<<<<<< Updated upstream
 .container #camera-content button.disconnect {
   background-color: #ffc107;
+=======
+b .container #vision-content .group-container .btn-set-vision:hover {
+  background-color: #c05621;
+}
+.container #vision-content div button {
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100px;
+  height: 50px;
+  font-size: 0.8rem;
+  border: none;
+  border: #16a085;
+  margin-left: 10px;
+}
+.container #vision-content div button:hover {
+  background-color: #1fe0ba;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px) scale(1.02);
+}
+.container #vision-content div button:active {
+  background-color: #17a689;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px) scale(0.98);
+}
+.container #vision-content .setVisionResponseDiv {
+  margin-top: 1.5vh;
+}
+.container #history-content {
+  padding: 1vh;
+}
+.container #history-content table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  color: #34495e;
+}
+.container #history-content table th,
+.container #history-content table td {
+  padding: 0.5rem;
+  text-align: left;
+  border: 1px solid #1abc9c;
+  font-size: 1rem;
+}
+.container #history-content table th {
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+.container #history-content table tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.container #history-content table tr:hover {
+  background-color: #1dd2af;
+  color: #ecf0f1;
+  transition: background-color 0.3s ease;
+>>>>>>> Stashed changes
 }/*# sourceMappingURL=setting.css.map */

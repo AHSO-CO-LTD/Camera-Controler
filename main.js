@@ -13,7 +13,36 @@ function createWindow() {
     },
   });
 
+<<<<<<< Updated upstream
   mainWindow.loadFile("index.html");
+=======
+  mainWindow.maximize();
+
+  // ===== Intro =====
+  mainWindow
+    .loadFile(path.join(__dirname, "view", "intro.html"))
+    .catch((err) => {
+      console.error("Failed to load intro.html:", err);
+    });
+
+  mainWindow.webContents.on("did-finish-load", () => {
+    const currentURL = mainWindow.webContents.getURL();
+    if (currentURL.includes("intro.html")) {
+      // console.log(runPythonBackend());
+      setTimeout(() => {
+        mainWindow.loadFile(path.join(__dirname, "index.html")).catch((err) => {
+          console.error("Failed to load index.html:", err);
+        });
+      }, 3000);
+    }
+  });
+  // Loại bỏ thanh menu
+  // Menu.setApplicationMenu(null);
+  // Dọn dẹp khi cửa sổ đóng
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
+>>>>>>> Stashed changes
 }
 
 // ================= Create Window Setting =================
